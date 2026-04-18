@@ -404,10 +404,10 @@
         return;
       }
 
-  tbody.innerHTML = rows.map(r => `
+tbody.innerHTML = rows.map(r => `
   <tr>
-    <td class="col-time">${escapeHtml(r.originTimeLocal || r.timeLocal || '')}</td>
-    <td class="col-other-time">${escapeHtml(r.destinationTimeLocal || r.otherTimeLocal || '')}</td>
+    <td class="col-time">${escapeHtml(r.depArr === 'DEP' ? (r.timeLocal || '') : (r.otherTimeLocal || ''))}</td>
+    <td class="col-other-time">${escapeHtml(r.depArr === 'DEP' ? (r.otherTimeLocal || '') : (r.timeLocal || ''))}</td>
     <td class="col-dir"><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
     <td class="col-airline">${escapeHtml(r.airline || '')}</td>
     <td class="col-flight">${escapeHtml(r.flightNumber || '')}</td>
