@@ -31,8 +31,8 @@
 
     .wrap{
       max-width:1400px;
-      margin:20px auto;
-      padding:0 10px;
+      margin:14px auto;
+      padding:0 6px;
     }
 
     .toolbar{
@@ -40,20 +40,20 @@
       border:1px solid var(--line);
       border-radius:16px;
       box-shadow:var(--shadow);
-      padding:14px;
-      margin-bottom:14px;
+      padding:12px;
+      margin-bottom:12px;
     }
 
     .toolbar-grid{
       display:grid;
-      grid-template-columns: 140px 205px 205px auto;
+      grid-template-columns: 140px 250px 250px auto;
       gap:8px;
       align-items:end;
     }
 
     .filter-grid{
       display:grid;
-      grid-template-columns: 130px 130px auto;
+      grid-template-columns: 120px 120px auto;
       gap:8px;
       align-items:end;
       margin-top:10px;
@@ -65,17 +65,20 @@
       display:block;
       font-size:12px;
       color:var(--muted);
-      margin-bottom:5px;
+      margin-bottom:4px;
       font-weight:700;
+      line-height:1.2;
+      min-height:14px;
     }
 
-    .field input{
+    .field input,
+    .field select{
       width:100%;
-      height:40px;
+      height:36px;
       border:1px solid var(--line);
       border-radius:10px;
-      padding:0 10px;
-      font-size:14px;
+      padding:0 8px;
+      font-size:13px;
       background:#fff;
     }
 
@@ -85,10 +88,11 @@
       text-transform:uppercase;
     }
 
-    .hint{
-      margin-top:4px;
-      font-size:11px;
-      color:var(--muted);
+    .dt-row{
+      display:grid;
+      grid-template-columns: 1fr 86px;
+      gap:6px;
+      align-items:center;
     }
 
     .actions{
@@ -98,14 +102,14 @@
     }
 
     .btn{
-      height:40px;
-      padding:0 14px;
+      height:36px;
+      padding:0 12px;
       border:none;
       border-radius:10px;
       background:var(--btn);
       color:#fff;
       font-weight:700;
-      font-size:13px;
+      font-size:12px;
       cursor:pointer;
       box-shadow:0 2px 0 rgba(0,0,0,.18);
       white-space:nowrap;
@@ -117,7 +121,7 @@
 
     .meta{
       display:flex;
-      gap:12px;
+      gap:10px;
       flex-wrap:wrap;
       margin-top:10px;
       font-size:12px;
@@ -134,13 +138,13 @@
 
     .table-wrap{
       overflow:auto;
-      max-height:76vh;
+      max-height:78vh;
     }
 
     table{
       width:100%;
       border-collapse:collapse;
-      min-width:760px;
+      min-width:640px;
     }
 
     thead th{
@@ -149,20 +153,20 @@
       z-index:1;
       background:#eef3f8;
       border-bottom:1px solid var(--line);
-      padding:8px 6px;
+      padding:6px 4px;
       text-align:center;
-      font-size:12px;
+      font-size:11px;
       white-space:nowrap;
-      line-height:1.2;
+      line-height:1.15;
     }
 
     tbody td{
       border-bottom:1px solid #edf2f7;
-      padding:7px 5px;
-      font-size:12px;
+      padding:5px 4px;
+      font-size:11px;
       white-space:nowrap;
       text-align:center;
-      line-height:1.2;
+      line-height:1.15;
     }
 
     tbody tr:hover{
@@ -171,10 +175,10 @@
 
     .tag{
       display:inline-block;
-      min-width:44px;
-      padding:3px 8px;
+      min-width:38px;
+      padding:2px 6px;
       border-radius:999px;
-      font-size:11px;
+      font-size:10px;
       font-weight:700;
     }
 
@@ -182,7 +186,7 @@
     .tag.arr{ background:var(--arr); color:#15803d; }
 
     .empty{
-      padding:30px 14px;
+      padding:24px 10px;
       text-align:center;
       color:var(--muted);
     }
@@ -197,13 +201,13 @@
       font-weight:700;
     }
 
-    .col-time{min-width:110px;}
-    .col-dir{min-width:60px;}
-    .col-airline{min-width:90px;}
-    .col-flight{min-width:70px;}
-    .col-acft{min-width:85px;}
-    .col-org{min-width:70px;}
-    .col-dst{min-width:70px;}
+    .col-time{min-width:88px;}
+    .col-dir{min-width:48px;}
+    .col-airline{min-width:70px;}
+    .col-flight{min-width:56px;}
+    .col-acft{min-width:68px;}
+    .col-org{min-width:54px;}
+    .col-dst{min-width:54px;}
 
     @media (max-width: 980px){
       .toolbar-grid,
@@ -220,40 +224,40 @@
       }
 
       .wrap{
-        padding:0 6px;
+        padding:0 4px;
       }
 
       .toolbar{
-        padding:10px;
+        padding:9px;
       }
 
       table{
-        min-width:640px;
+        min-width:560px;
       }
 
       thead th{
-        padding:7px 4px;
-        font-size:11px;
-      }
-
-      tbody td{
-        padding:6px 4px;
-        font-size:11px;
-      }
-
-      .tag{
-        min-width:40px;
-        padding:2px 6px;
+        padding:5px 3px;
         font-size:10px;
       }
 
-      .col-time{min-width:98px;}
-      .col-dir{min-width:50px;}
-      .col-airline{min-width:72px;}
-      .col-flight{min-width:58px;}
-      .col-acft{min-width:72px;}
-      .col-org{min-width:58px;}
-      .col-dst{min-width:58px;}
+      tbody td{
+        padding:4px 3px;
+        font-size:10px;
+      }
+
+      .tag{
+        min-width:34px;
+        padding:2px 5px;
+        font-size:9px;
+      }
+
+      .col-time{min-width:80px;}
+      .col-dir{min-width:42px;}
+      .col-airline{min-width:58px;}
+      .col-flight{min-width:50px;}
+      .col-acft{min-width:58px;}
+      .col-org{min-width:48px;}
+      .col-dst{min-width:48px;}
     }
   </style>
 </head>
@@ -269,14 +273,18 @@
 
         <div class="field">
           <label>START (LOCAL)</label>
-          <input id="startLocal" type="datetime-local" step="60">
-          <div class="hint">기본값: 오늘 06:00</div>
+          <div class="dt-row">
+            <input id="startDate" type="date">
+            <select id="startTime"></select>
+          </div>
         </div>
 
         <div class="field">
           <label>END (LOCAL)</label>
-          <input id="endLocal" type="datetime-local" step="60">
-          <div class="hint">자동값: 같은 날짜 23:59</div>
+          <div class="dt-row">
+            <input id="endDate" type="date">
+            <select id="endTime"></select>
+          </div>
         </div>
 
         <div class="actions">
@@ -290,12 +298,12 @@
       <div class="filter-grid">
         <div class="field">
           <label>출발공항 Filter</label>
-          <input id="filterOrigin" type="text" maxlength="4" placeholder="예: RJTT">
+          <input id="filterOrigin" type="text" maxlength="4" placeholder="RJTT">
         </div>
 
         <div class="field">
           <label>도착공항 Filter</label>
-          <input id="filterDestination" type="text" maxlength="4" placeholder="예: RKSS">
+          <input id="filterDestination" type="text" maxlength="4" placeholder="RKSS">
         </div>
 
         <div class="actions">
@@ -364,6 +372,21 @@
       if (type === 'ok') el.classList.add('status-ok');
     }
 
+    function populateTimeSelect(selectEl, defaultValue) {
+      const times = [];
+      for (let h = 0; h < 24; h++) {
+        for (let m = 0; m < 60; m++) {
+          if (m !== 0 && m !== 59) continue;
+          const hh = String(h).padStart(2, '0');
+          const mm = String(m).padStart(2, '0');
+          times.push(`${hh}:${mm}`);
+        }
+      }
+
+      selectEl.innerHTML = times.map(t => `<option value="${t}">${t}</option>`).join('');
+      selectEl.value = defaultValue;
+    }
+
     function getFilteredRows() {
       let rows = [...allRows];
 
@@ -399,9 +422,7 @@
         <tr>
           <td class="col-time">${escapeHtml(r.timeUtc || '')}</td>
           <td class="col-dir">
-            <span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">
-              ${escapeHtml(r.depArr || '')}
-            </span>
+            <span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span>
           </td>
           <td class="col-airline">${escapeHtml(r.airline || '')}</td>
           <td class="col-flight">${escapeHtml(r.flightNumber || '')}</td>
@@ -453,19 +474,24 @@
     }
 
     function setDefaultDateTimes() {
-      const now = new Date();
-      const today = formatYmd(now);
-
-      $('startLocal').value = `${today}T06:00`;
-      $('endLocal').value = `${today}T23:59`;
+      const today = formatYmd(new Date());
+      $('startDate').value = today;
+      $('endDate').value = today;
+      $('startTime').value = '06:00';
+      $('endTime').value = '23:59';
     }
 
     function syncEndWithStartDate() {
-      const start = $('startLocal').value.trim();
-      if (!start) return;
+      $('endDate').value = $('startDate').value;
+      $('endTime').value = '23:59';
+    }
 
-      const datePart = start.split('T')[0];
-      $('endLocal').value = `${datePart}T23:59`;
+    function getStartValue() {
+      return `${$('startDate').value}T${$('startTime').value}`;
+    }
+
+    function getEndValue() {
+      return `${$('endDate').value}T${$('endTime').value}`;
     }
 
     function applyAirportFilter() {
@@ -484,15 +510,15 @@
 
     async function searchSchedule() {
       const airport = $('airport').value.trim().toUpperCase();
-      const start = $('startLocal').value.trim();
-      const end = $('endLocal').value.trim();
+      const start = getStartValue();
+      const end = getEndValue();
 
       if (!airport) {
         alert('공항 ICAO 코드를 입력해주세요.');
         return;
       }
-      if (!start || !end) {
-        alert('시작/종료 시간을 입력해주세요.');
+      if (!$('startDate').value || !$('endDate').value) {
+        alert('시작/종료 날짜를 입력해주세요.');
         return;
       }
       if (end <= start) {
@@ -579,8 +605,11 @@
       if (e.key === 'Enter') applyAirportFilter();
     });
 
-    $('startLocal').addEventListener('change', syncEndWithStartDate);
+    $('startDate').addEventListener('change', syncEndWithStartDate);
+    $('startTime').addEventListener('change', syncEndWithStartDate);
 
+    populateTimeSelect($('startTime'), '06:00');
+    populateTimeSelect($('endTime'), '23:59');
     setDefaultDateTimes();
     renderRows();
   </script>
