@@ -161,6 +161,8 @@
     .btn:hover{background:var(--btn-dark)}
     .btn-primary{background:var(--blue);}
     .btn-primary:hover{background:var(--blue-dark);}
+    .btn-popup{background:#2563eb;}
+    .btn-popup:hover{background:#1d4ed8;}
 
     .meta{
       display:flex;
@@ -245,7 +247,6 @@
       font-weight:700;
     }
 
-    /* PC 컬럼폭 축소 */
     .col-time{min-width:74px;}
     .col-dir{min-width:38px;}
     .col-airline{min-width:56px;}
@@ -253,6 +254,10 @@
     .col-acft{min-width:62px;}
     .col-org{min-width:42px;}
     .col-dst{min-width:42px;}
+
+    .pc-only-inline{
+      display:inline-flex;
+    }
 
     @media (max-width: 980px){
       :root{
@@ -271,7 +276,7 @@
 
       .filter-grid{
         grid-template-columns:auto auto;
-        gap:8px 8px;
+        gap:8px 1px;
         align-items:end;
         justify-content:start;
       }
@@ -365,11 +370,11 @@
       }
 
       .filter-grid{
-        grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-columns:auto auto;
         grid-template-areas:
           "origin destination"
           "filterActions filterActions";
-        gap:8px 2px;
+        gap:8px 8px;
         align-items:end;
         justify-content:start;
       }
@@ -399,9 +404,9 @@
         width:var(--w-airport) !important;
       }
 
-  .filter-input{
-  width:var(--w-filter) !important;
-}
+      .filter-input{
+        width:var(--w-filter) !important;
+      }
 
       .dt-row{
         display:grid;
@@ -424,6 +429,10 @@
 
       .actions{
         width:100%;
+      }
+
+      .pc-only-inline{
+        display:none !important;
       }
 
       .col-time{min-width:70px;}
@@ -467,6 +476,7 @@
           <button class="btn" id="btnAll">전체</button>
           <button class="btn" id="btnDep">DEP</button>
           <button class="btn" id="btnArr">ARR</button>
+          <button class="btn btn-popup pc-only-inline" id="btnPopup">결과 팝업</button>
         </div>
       </div>
 
@@ -674,6 +684,189 @@
       renderRows();
     }
 
+    function isMobileLike() {
+      return window.innerWidth <= 560 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    }
+
+    function getPopupRows() {
+      return getFilteredRows();
+    }
+
+    function buildPopupHtml(rows, airport, periodText, filterText) {
+      const tableRows = rows.length
+        ? rows.map(r => `
+          <tr>
+            <td>${escapeHtml(r.timeLocal || '')}</td>
+            <td>${escapeHtml(r.depArr || '')}</td>
+            <td>${escapeHtml(r.airline || '')}</td>
+            <td>${escapeHtml(r.flightNumber || '')}</td>
+            <td>${escapeHtml(r.aircraft || '')}</td>
+            <td>${escapeHtml(r.origin || '')}</td>
+            <td>${escapeHtml(r.destination || '')}</td>
+          </tr>
+        `).join('')
+        : `<tr><td colspan="7" class="empty">조회 결과가 없습니다.</td></tr>`;
+
+      return `<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Airport Schedule Result</title>
+<style>
+  body{
+    margin:0;
+    padding:20px;
+    font-family:Arial, Helvetica, sans-serif;
+    color:#1f2d3d;
+    background:#ffffff;
+  }
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+  }
+  .title{
+    font-size:22px;
+    font-weight:700;
+  }
+  .meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 16px;
+    font-size:13px;
+    color:#5b6b7b;
+    margin-bottom:14px;
+  }
+  .btns{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    height:34px;
+    padding:0 12px;
+    border:none;
+    border-radius:10px;
+    background:#4a6fa5;
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .btn.gray{
+    background:#6b7280;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+  }
+  thead th{
+    background:#eef3f8;
+    border:1px solid #d7e0ea;
+    padding:8px 6px;
+    font-size:12px;
+    text-align:center;
+    white-space:nowrap;
+  }
+  tbody td{
+    border:1px solid #e5ecf3;
+    padding:7px 6px;
+    font-size:12px;
+    text-align:center;
+    white-space:nowrap;
+  }
+  .empty{
+    text-align:center;
+    color:#6b7c93;
+    padding:22px 0;
+  }
+  @page{
+    size:auto;
+    margin:12mm;
+  }
+  @media print{
+    .topbar .btns{
+      display:none !important;
+    }
+    body{
+      padding:0;
+    }
+    .title{
+      font-size:18px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="title">Airport Schedule Result</div>
+    <div class="btns">
+      <button class="btn" onclick="window.print()">인쇄 / PDF 저장</button>
+      <button class="btn gray" onclick="window.close()">닫기</button>
+    </div>
+  </div>
+
+  <div class="meta">
+    <div>공항: <strong>${escapeHtml(airport)}</strong></div>
+    <div>기간: <strong>${escapeHtml(periodText)}</strong></div>
+    <div>필터: <strong>${escapeHtml(filterText)}</strong></div>
+    <div>건수: <strong>${rows.length}</strong></div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>TIME(Local)</th>
+        <th>DEP/ARR</th>
+        <th>항공사</th>
+        <th>편명</th>
+        <th>기재</th>
+        <th>출발공항</th>
+        <th>도착공항</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${tableRows}
+    </tbody>
+  </table>
+</body>
+</html>`;
+    }
+
+    function openResultPopup() {
+      if (isMobileLike()) {
+        alert('결과 팝업 및 PDF 저장은 PC에서 사용해주세요.');
+        return;
+      }
+
+      const rows = getPopupRows();
+      if (!rows.length) {
+        alert('팝업으로 띄울 결과가 없습니다.');
+        return;
+      }
+
+      const airport = $('metaAirport').textContent || $('airport').value.trim().toUpperCase() || '-';
+      const periodText = $('metaPeriod').textContent || '-';
+
+      const originText = $('filterOrigin').value.trim().toUpperCase();
+      const destinationText = $('filterDestination').value.trim().toUpperCase();
+      const filterText = `출발:${originText || '전체'} / 도착:${destinationText || '전체'} / 구분:${currentFilter}`;
+
+      const popup = window.open('', 'airportSchedulePopup', 'width=1280,height=860,scrollbars=yes,resizable=yes');
+      if (!popup) {
+        alert('팝업이 차단되었습니다. 브라우저에서 팝업을 허용해주세요.');
+        return;
+      }
+
+      popup.document.open();
+      popup.document.write(buildPopupHtml(rows, airport, periodText, filterText));
+      popup.document.close();
+      popup.focus();
+    }
+
     async function searchSchedule() {
       const airport = $('airport').value.trim().toUpperCase();
       const start = getStartValue();
@@ -728,6 +921,7 @@
     $('btnArr').addEventListener('click', () => { currentFilter = 'ARR'; renderRows(); });
     $('btnApplyFilter').addEventListener('click', applyAirportFilter);
     $('btnClearFilter').addEventListener('click', clearAirportFilter);
+    $('btnPopup').addEventListener('click', openResultPopup);
 
     $('airport').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
