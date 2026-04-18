@@ -342,7 +342,7 @@
           "airport airport"
           "start end"
           "actions actions";
-        gap:8px 2px;
+        gap:8px 5px;
         align-items:end;
         justify-content:start;
       }
@@ -368,7 +368,7 @@
         grid-template-areas:
           "origin destination"
           "filterActions filterActions";
-        gap:8px 0px;
+        gap:8px 5px;
         align-items:end;
         justify-content:start;
       }
@@ -461,12 +461,13 @@
           </div>
         </div>
 
-        <div class="actions">
-          <button class="btn btn-primary" id="btnSearch">스케줄 조회</button>
-          <button class="btn" id="btnAll">전체</button>
-          <button class="btn" id="btnDep">DEP</button>
-          <button class="btn" id="btnArr">ARR</button>
-        </div>
+   <div class="actions">
+  <button class="btn btn-primary" id="btnSearch">스케줄 조회</button>
+  <button class="btn" id="btnAll">전체</button>
+  <button class="btn" id="btnDep">DEP</button>
+  <button class="btn" id="btnArr">ARR</button>
+  <button class="btn btn-popup pc-only-inline" id="btnPopup">결과 팝업</button>
+</div>
       </div>
 
       <div class="filter-grid">
