@@ -19,6 +19,11 @@
       --dep:#dbeafe;
       --arr:#dcfce7;
       --shadow:0 8px 24px rgba(15,23,42,.08);
+
+      --w-filter: 150px;
+      --w-airport: 150px;
+      --w-date: 150px;
+      --w-time: 86px;
     }
 
     *{box-sizing:border-box}
@@ -32,7 +37,7 @@
     .wrap{
       max-width:1400px;
       margin:10px auto;
-      padding:0 6px;
+      padding:0 8px;
     }
 
     .toolbar{
@@ -40,14 +45,14 @@
       border:1px solid var(--line);
       border-radius:16px;
       box-shadow:var(--shadow);
-      padding:10px;
+      padding:12px;
       margin-bottom:10px;
     }
 
     .toolbar-grid{
       display:grid;
       grid-template-columns:auto auto auto auto;
-      gap:8px;
+      gap:10px;
       align-items:end;
       justify-content:start;
     }
@@ -55,11 +60,11 @@
     .filter-grid{
       display:grid;
       grid-template-columns:auto auto auto;
-      gap:8px;
+      gap:10px;
       align-items:end;
       justify-content:start;
-      margin-top:10px;
-      padding-top:10px;
+      margin-top:12px;
+      padding-top:12px;
       border-top:1px dashed var(--line);
     }
 
@@ -72,21 +77,20 @@
       display:block;
       font-size:12px;
       color:var(--muted);
-      margin-bottom:4px;
+      margin-bottom:6px;
       font-weight:700;
       line-height:1.2;
-      min-height:14px;
+      white-space:nowrap;
     }
 
     .field input,
     .field select{
-      height:34px;
+      height:40px;
       border:1px solid var(--line);
-      border-radius:10px;
-      padding:0 8px;
-      font-size:13px;
+      border-radius:12px;
+      padding:0 12px;
+      font-size:16px;
       background:#fff;
-      width:auto;
       min-width:0;
     }
 
@@ -94,38 +98,31 @@
       background:var(--yellow) !important;
       font-weight:700;
       text-transform:uppercase;
+      width:var(--w-airport);
     }
 
-    .icao-short{
-      width:7.2ch !important;
-      min-width:7.2ch !important;
-      max-width:7.2ch !important;
-      text-align:center;
-      padding:0 6px !important;
+    .filter-input{
+      width:var(--w-filter);
+      text-transform:uppercase;
     }
 
     .dt-row{
       display:grid;
-      grid-template-columns: 11.5ch 6.2ch;
-      gap:6px;
+      grid-template-columns: var(--w-date) var(--w-time);
+      gap:8px;
       align-items:center;
       width:fit-content;
     }
 
     .date-fit{
-      width:11.5ch !important;
-      min-width:11.5ch !important;
-      max-width:11.5ch !important;
-      text-align:center;
-      padding:0 6px !important;
+      width:var(--w-date);
+      min-width:var(--w-date);
     }
 
     .time-fit{
-      width:6.2ch !important;
-      min-width:6.2ch !important;
-      max-width:6.2ch !important;
+      width:var(--w-time);
+      min-width:var(--w-time);
       text-align:center;
-      padding:0 6px !important;
     }
 
     .actions{
@@ -137,19 +134,18 @@
     }
 
     .btn{
-      height:32px;
-      padding:0 10px;
+      height:38px;
+      padding:0 12px;
       border:none;
       border-radius:10px;
       background:var(--btn);
       color:#fff;
       font-weight:700;
-      font-size:12px;
+      font-size:13px;
       cursor:pointer;
       box-shadow:0 2px 0 rgba(0,0,0,.18);
       white-space:nowrap;
       width:auto;
-      min-width:fit-content;
       flex:0 0 auto;
     }
 
@@ -161,7 +157,7 @@
       display:flex;
       gap:8px;
       flex-wrap:wrap;
-      margin-top:10px;
+      margin-top:12px;
       font-size:12px;
       color:var(--muted);
     }
@@ -191,20 +187,20 @@
       z-index:1;
       background:#eef3f8;
       border-bottom:1px solid var(--line);
-      padding:4px 2px;
+      padding:6px 4px;
       text-align:center;
-      font-size:10px;
+      font-size:11px;
       white-space:nowrap;
-      line-height:1.05;
+      line-height:1.1;
     }
 
     tbody td{
       border-bottom:1px solid #edf2f7;
-      padding:3px 2px;
-      font-size:10px;
+      padding:5px 4px;
+      font-size:11px;
       white-space:nowrap;
       text-align:center;
-      line-height:1.05;
+      line-height:1.1;
     }
 
     tbody tr:hover{
@@ -214,9 +210,9 @@
     .tag{
       display:inline-block;
       min-width:28px;
-      padding:1px 4px;
+      padding:2px 5px;
       border-radius:999px;
-      font-size:9px;
+      font-size:10px;
       font-weight:700;
     }
 
@@ -239,15 +235,22 @@
       font-weight:700;
     }
 
-    .col-time{min-width:70px;}
-    .col-dir{min-width:36px;}
-    .col-airline{min-width:52px;}
-    .col-flight{min-width:40px;}
-    .col-acft{min-width:48px;}
-    .col-org{min-width:40px;}
-    .col-dst{min-width:40px;}
+    .col-time{min-width:120px;}
+    .col-dir{min-width:50px;}
+    .col-airline{min-width:80px;}
+    .col-flight{min-width:70px;}
+    .col-acft{min-width:80px;}
+    .col-org{min-width:70px;}
+    .col-dst{min-width:70px;}
 
     @media (max-width: 980px){
+      :root{
+        --w-filter: 148px;
+        --w-airport: 148px;
+        --w-date: 142px;
+        --w-time: 82px;
+      }
+
       .toolbar-grid{
         grid-template-columns:1fr;
         justify-content:start;
@@ -256,10 +259,6 @@
       .filter-grid{
         grid-template-columns:1fr;
         justify-content:start;
-      }
-
-      .field{
-        width:fit-content;
       }
 
       .actions{
@@ -271,65 +270,17 @@
         padding-bottom:2px;
       }
 
-      .btn{
-        height:30px;
-        font-size:11px;
-        padding:0 10px;
-        flex:0 0 auto;
-        width:auto;
-      }
-
       .field input,
       .field select{
-        height:32px;
+        height:38px;
+        font-size:16px;
+      }
+
+      .btn{
+        height:36px;
         font-size:12px;
+        padding:0 12px;
       }
-
-      .dt-row{
-        grid-template-columns:11ch 6ch;
-        gap:5px;
-      }
-
-      .date-fit{
-        width:11ch !important;
-        min-width:11ch !important;
-        max-width:11ch !important;
-      }
-
-      .time-fit{
-        width:6ch !important;
-        min-width:6ch !important;
-        max-width:6ch !important;
-      }
-
-      .icao-short{
-        width:7ch !important;
-        min-width:7ch !important;
-        max-width:7ch !important;
-      }
-
-      .meta{
-        font-size:11px;
-        gap:6px;
-      }
-
-      thead th{
-        padding:3px 2px;
-        font-size:9px;
-      }
-
-      tbody td{
-        padding:2px 2px;
-        font-size:9px;
-      }
-
-      .col-time{min-width:64px;}
-      .col-dir{min-width:32px;}
-      .col-airline{min-width:46px;}
-      .col-flight{min-width:36px;}
-      .col-acft{min-width:42px;}
-      .col-org{min-width:36px;}
-      .col-dst{min-width:36px;}
     }
   </style>
 </head>
@@ -340,7 +291,7 @@
       <div class="toolbar-grid">
         <div class="field">
           <label>공항(ICAO)</label>
-          <input id="airport" class="airport icao-short" type="text" value="RJTT" maxlength="4" placeholder="RJTT">
+          <input id="airport" class="airport" type="text" value="RJTT" maxlength="4" placeholder="RJTT">
         </div>
 
         <div class="field">
@@ -370,12 +321,12 @@
       <div class="filter-grid">
         <div class="field">
           <label>출발공항 Filter</label>
-          <input id="filterOrigin" class="icao-short" type="text" maxlength="4" placeholder="RJTT">
+          <input id="filterOrigin" class="filter-input" type="text" maxlength="4" placeholder="RJTT">
         </div>
 
         <div class="field">
           <label>도착공항 Filter</label>
-          <input id="filterDestination" class="icao-short" type="text" maxlength="4" placeholder="RKSS">
+          <input id="filterDestination" class="filter-input" type="text" maxlength="4" placeholder="RKSS">
         </div>
 
         <div class="actions">
@@ -416,7 +367,7 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLUz3EwPL251uY6bRxZjF4us1Hr5f4Uct5RxP4qRAvXf6v-TwY-x34VShRfvYBrIuK/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWYABhwclYC3uqAxxmfNcGs3fzkXz-fIqe41ETQYBpBHSygZUbN7dMmnZplnGis77T/exec';
 
     let allRows = [];
     let currentFilter = 'ALL';
