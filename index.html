@@ -161,6 +161,12 @@
     .btn:hover{background:var(--btn-dark)}
     .btn-primary{background:var(--blue);}
     .btn-primary:hover{background:var(--blue-dark);}
+    .btn-popup{background:#2563eb;}
+    .btn-popup:hover{background:#1d4ed8;}
+
+    .pc-only-inline{
+      display:inline-flex;
+    }
 
     .meta{
       display:flex;
@@ -425,6 +431,10 @@
         width:100%;
       }
 
+      .pc-only-inline{
+        display:none !important;
+      }
+
       .col-time{min-width:70px;}
       .col-dir{min-width:34px;}
       .col-airline{min-width:50px;}
@@ -461,13 +471,13 @@
           </div>
         </div>
 
-   <div class="actions">
-  <button class="btn btn-primary" id="btnSearch">스케줄 조회</button>
-  <button class="btn" id="btnAll">전체</button>
-  <button class="btn" id="btnDep">DEP</button>
-  <button class="btn" id="btnArr">ARR</button>
-  <button class="btn btn-popup pc-only-inline" id="btnPopup">결과 팝업</button>
-</div>
+        <div class="actions">
+          <button class="btn btn-primary" id="btnSearch">스케줄 조회</button>
+          <button class="btn" id="btnAll">전체</button>
+          <button class="btn" id="btnDep">DEP</button>
+          <button class="btn" id="btnArr">ARR</button>
+          <button class="btn btn-popup pc-only-inline" id="btnPopup">결과 팝업</button>
+        </div>
       </div>
 
       <div class="filter-grid">
@@ -527,7 +537,6 @@
       origin: '',
       destination: ''
     };
-    let lastPopupSignature = '';
 
     const $ = (id) => document.getElementById(id);
 
@@ -681,17 +690,6 @@
 
     function getPopupRows() {
       return getFilteredRows();
-    }
-
-    function getPopupSignature(rows, airport, periodText, filterText) {
-      return JSON.stringify({
-        airport,
-        periodText,
-        filterText,
-        count: rows.length,
-        first: rows[0] || null,
-        last: rows[rows.length - 1] || null
-      });
     }
 
     function buildPopupHtml(rows, airport, periodText, filterText) {
@@ -855,21 +853,23 @@
 </html>`;
     }
 
-    function openResultPopupAuto(force = false) {
-      if (isMobileLike() && !force) return;
+    function openResultPopup() {
+      if (isMobileLike()) {
+        alert('결과 팝업 및 PDF 저장은 PC에서 사용해주세요.');
+        return;
+      }
 
       const rows = getPopupRows();
-      if (!rows.length) return;
+      if (!rows.length) {
+        alert('팝업으로 띄울 결과가 없습니다.');
+        return;
+      }
 
       const airport = $('metaAirport').textContent || $('airport').value.trim().toUpperCase() || '-';
       const periodText = $('metaPeriod').textContent || '-';
       const originText = $('filterOrigin').value.trim().toUpperCase();
       const destinationText = $('filterDestination').value.trim().toUpperCase();
       const filterText = `출발:${originText || '전체'} / 도착:${destinationText || '전체'} / 구분:${currentFilter}`;
-
-      const currentSignature = getPopupSignature(rows, airport, periodText, filterText);
-      if (!force && currentSignature === lastPopupSignature) return;
-      lastPopupSignature = currentSignature;
 
       const popup = window.open('', 'airportSchedulePopup', 'width=1280,height=860,scrollbars=yes,resizable=yes');
       if (!popup) {
@@ -924,10 +924,6 @@
         renderRows();
         setStatus(getFilteredRows().length === 0 ? '정상 (0건)' : '정상', 'ok');
 
-        if (!isMobileLike()) {
-          openResultPopupAuto(true);
-        }
-
       } catch (err) {
         allRows = [];
         renderRows();
@@ -939,26 +935,18 @@
     $('btnAll').addEventListener('click', () => {
       currentFilter = 'ALL';
       renderRows();
-      openResultPopupAuto();
     });
     $('btnDep').addEventListener('click', () => {
       currentFilter = 'DEP';
       renderRows();
-      openResultPopupAuto();
     });
     $('btnArr').addEventListener('click', () => {
       currentFilter = 'ARR';
       renderRows();
-      openResultPopupAuto();
     });
-    $('btnApplyFilter').addEventListener('click', () => {
-      applyAirportFilter();
-      openResultPopupAuto();
-    });
-    $('btnClearFilter').addEventListener('click', () => {
-      clearAirportFilter();
-      openResultPopupAuto();
-    });
+    $('btnApplyFilter').addEventListener('click', applyAirportFilter);
+    $('btnClearFilter').addEventListener('click', clearAirportFilter);
+    $('btnPopup').addEventListener('click', openResultPopup);
 
     $('airport').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
@@ -973,17 +961,11 @@
     });
 
     $('filterOrigin').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        applyAirportFilter();
-        openResultPopupAuto();
-      }
+      if (e.key === 'Enter') applyAirportFilter();
     });
 
     $('filterDestination').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        applyAirportFilter();
-        openResultPopupAuto();
-      }
+      if (e.key === 'Enter') applyAirportFilter();
     });
 
     $('startDate').addEventListener('change', syncEndWithStartDate);
