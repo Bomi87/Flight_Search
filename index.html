@@ -31,8 +31,8 @@
 
     .wrap{
       max-width:1400px;
-      margin:12px auto;
-      padding:0 4px;
+      margin:10px auto;
+      padding:0 6px;
     }
 
     .toolbar{
@@ -46,19 +46,26 @@
 
     .toolbar-grid{
       display:grid;
-      grid-template-columns: 140px 250px 250px auto;
+      grid-template-columns:auto auto auto auto;
       gap:8px;
       align-items:end;
+      justify-content:start;
     }
 
     .filter-grid{
       display:grid;
-      grid-template-columns: 120px 120px auto;
+      grid-template-columns:auto auto auto;
       gap:8px;
       align-items:end;
+      justify-content:start;
       margin-top:10px;
       padding-top:10px;
       border-top:1px dashed var(--line);
+    }
+
+    .field{
+      width:fit-content;
+      min-width:0;
     }
 
     .field label{
@@ -73,36 +80,64 @@
 
     .field input,
     .field select{
-      width:100%;
       height:34px;
       border:1px solid var(--line);
       border-radius:10px;
       padding:0 8px;
       font-size:13px;
       background:#fff;
+      width:auto;
+      min-width:0;
     }
 
-    .field input.airport{
-      background:var(--yellow);
+    .airport{
+      background:var(--yellow) !important;
       font-weight:700;
       text-transform:uppercase;
     }
 
+    .icao-short{
+      width:7.2ch !important;
+      min-width:7.2ch !important;
+      max-width:7.2ch !important;
+      text-align:center;
+      padding:0 6px !important;
+    }
+
     .dt-row{
       display:grid;
-      grid-template-columns: 1fr 78px;
+      grid-template-columns: 11.5ch 6.2ch;
       gap:6px;
       align-items:center;
+      width:fit-content;
+    }
+
+    .date-fit{
+      width:11.5ch !important;
+      min-width:11.5ch !important;
+      max-width:11.5ch !important;
+      text-align:center;
+      padding:0 6px !important;
+    }
+
+    .time-fit{
+      width:6.2ch !important;
+      min-width:6.2ch !important;
+      max-width:6.2ch !important;
+      text-align:center;
+      padding:0 6px !important;
     }
 
     .actions{
       display:flex;
       gap:6px;
-      flex-wrap:wrap;
+      flex-wrap:nowrap;
+      align-items:center;
+      width:fit-content;
     }
 
     .btn{
-      height:34px;
+      height:32px;
       padding:0 10px;
       border:none;
       border-radius:10px;
@@ -113,7 +148,9 @@
       cursor:pointer;
       box-shadow:0 2px 0 rgba(0,0,0,.18);
       white-space:nowrap;
-      min-width:0;
+      width:auto;
+      min-width:fit-content;
+      flex:0 0 auto;
     }
 
     .btn:hover{background:var(--btn-dark)}
@@ -143,9 +180,9 @@
     }
 
     table{
-      width:100%;
+      width:max-content;
+      min-width:100%;
       border-collapse:collapse;
-      min-width:620px;
     }
 
     thead th{
@@ -154,20 +191,20 @@
       z-index:1;
       background:#eef3f8;
       border-bottom:1px solid var(--line);
-      padding:5px 3px;
+      padding:4px 2px;
       text-align:center;
       font-size:10px;
       white-space:nowrap;
-      line-height:1.1;
+      line-height:1.05;
     }
 
     tbody td{
       border-bottom:1px solid #edf2f7;
-      padding:4px 3px;
+      padding:3px 2px;
       font-size:10px;
       white-space:nowrap;
       text-align:center;
-      line-height:1.1;
+      line-height:1.05;
     }
 
     tbody tr:hover{
@@ -176,8 +213,8 @@
 
     .tag{
       display:inline-block;
-      min-width:34px;
-      padding:2px 5px;
+      min-width:28px;
+      padding:1px 4px;
       border-radius:999px;
       font-size:9px;
       font-weight:700;
@@ -202,32 +239,44 @@
       font-weight:700;
     }
 
-    .col-time{min-width:78px;}
-    .col-dir{min-width:42px;}
-    .col-airline{min-width:58px;}
-    .col-flight{min-width:46px;}
-    .col-acft{min-width:54px;}
-    .col-org{min-width:46px;}
-    .col-dst{min-width:46px;}
+    .col-time{min-width:70px;}
+    .col-dir{min-width:36px;}
+    .col-airline{min-width:52px;}
+    .col-flight{min-width:40px;}
+    .col-acft{min-width:48px;}
+    .col-org{min-width:40px;}
+    .col-dst{min-width:40px;}
 
     @media (max-width: 980px){
-      .toolbar-grid,
+      .toolbar-grid{
+        grid-template-columns:1fr;
+        justify-content:start;
+      }
+
       .filter-grid{
-        grid-template-columns: 1fr;
+        grid-template-columns:1fr;
+        justify-content:start;
+      }
+
+      .field{
+        width:fit-content;
       }
 
       .actions{
-        display:grid;
-        grid-template-columns: 1fr 1fr;
+        display:flex;
+        flex-wrap:nowrap;
         gap:6px;
+        overflow-x:auto;
         width:100%;
+        padding-bottom:2px;
       }
 
       .btn{
-        width:100%;
-        height:32px;
+        height:30px;
         font-size:11px;
-        padding:0 8px;
+        padding:0 10px;
+        flex:0 0 auto;
+        width:auto;
       }
 
       .field input,
@@ -237,7 +286,26 @@
       }
 
       .dt-row{
-        grid-template-columns: 1fr 72px;
+        grid-template-columns:11ch 6ch;
+        gap:5px;
+      }
+
+      .date-fit{
+        width:11ch !important;
+        min-width:11ch !important;
+        max-width:11ch !important;
+      }
+
+      .time-fit{
+        width:6ch !important;
+        min-width:6ch !important;
+        max-width:6ch !important;
+      }
+
+      .icao-short{
+        width:7ch !important;
+        min-width:7ch !important;
+        max-width:7ch !important;
       }
 
       .meta{
@@ -245,9 +313,23 @@
         gap:6px;
       }
 
-      table{
-        min-width:560px;
+      thead th{
+        padding:3px 2px;
+        font-size:9px;
       }
+
+      tbody td{
+        padding:2px 2px;
+        font-size:9px;
+      }
+
+      .col-time{min-width:64px;}
+      .col-dir{min-width:32px;}
+      .col-airline{min-width:46px;}
+      .col-flight{min-width:36px;}
+      .col-acft{min-width:42px;}
+      .col-org{min-width:36px;}
+      .col-dst{min-width:36px;}
     }
   </style>
 </head>
@@ -258,22 +340,22 @@
       <div class="toolbar-grid">
         <div class="field">
           <label>공항(ICAO)</label>
-          <input id="airport" class="airport" type="text" value="RJTT" maxlength="4" placeholder="RJTT">
+          <input id="airport" class="airport icao-short" type="text" value="RJTT" maxlength="4" placeholder="RJTT">
         </div>
 
         <div class="field">
           <label>START (LOCAL)</label>
           <div class="dt-row">
-            <input id="startDate" type="date">
-            <select id="startTime"></select>
+            <input id="startDate" class="date-fit" type="date">
+            <select id="startTime" class="time-fit"></select>
           </div>
         </div>
 
         <div class="field">
           <label>END (LOCAL)</label>
           <div class="dt-row">
-            <input id="endDate" type="date">
-            <select id="endTime"></select>
+            <input id="endDate" class="date-fit" type="date">
+            <select id="endTime" class="time-fit"></select>
           </div>
         </div>
 
@@ -288,12 +370,12 @@
       <div class="filter-grid">
         <div class="field">
           <label>출발공항 Filter</label>
-          <input id="filterOrigin" type="text" maxlength="4" placeholder="RJTT">
+          <input id="filterOrigin" class="icao-short" type="text" maxlength="4" placeholder="RJTT">
         </div>
 
         <div class="field">
           <label>도착공항 Filter</label>
-          <input id="filterDestination" type="text" maxlength="4" placeholder="RKSS">
+          <input id="filterDestination" class="icao-short" type="text" maxlength="4" placeholder="RKSS">
         </div>
 
         <div class="actions">
@@ -334,7 +416,7 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ9zSHNECOvxMf-n6z2fx8TaC2mytXFLpzVaa_UmvXHN_54Rod21ZRj3dscoKVTgDf/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLUz3EwPL251uY6bRxZjF4us1Hr5f4Uct5RxP4qRAvXf6v-TwY-x34VShRfvYBrIuK/exec';
 
     let allRows = [];
     let currentFilter = 'ALL';
@@ -369,7 +451,6 @@
         times.push(`${hh}:00`);
       }
       times.push('23:59');
-
       selectEl.innerHTML = times.map(t => `<option value="${t}">${t}</option>`).join('');
       selectEl.value = defaultValue;
     }
@@ -530,8 +611,12 @@
         currentFilter = 'ALL';
         renderRows();
 
-        if (getFilteredRows().length === 0) setStatus('정상 (0건)', 'ok');
-        else setStatus('정상', 'ok');
+        if (getFilteredRows().length === 0) {
+          setStatus('정상 (0건)', 'ok');
+        } else {
+          const cacheText = data.cache ? ` / CACHE ${data.cache}` : '';
+          setStatus('정상' + cacheText, 'ok');
+        }
 
       } catch (err) {
         allRows = [];
