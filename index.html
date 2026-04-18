@@ -20,9 +20,9 @@
       --arr:#dcfce7;
       --shadow:0 8px 24px rgba(15,23,42,.08);
 
-      --w-airport:150px;
-      --w-filter:150px;
-      --w-date:138px;
+      --w-airport:104px;
+      --w-filter:104px;
+      --w-date:122px;
       --w-time:74px;
     }
 
@@ -37,17 +37,17 @@
 
     .wrap{
       max-width:1400px;
-      margin:10px auto;
-      padding:0 6px;
+      margin:4px auto;
+      padding:0;
     }
 
     .toolbar{
       background:var(--card);
       border:1px solid var(--line);
-      border-radius:16px;
+      border-radius:12px;
       box-shadow:var(--shadow);
-      padding:10px;
-      margin-bottom:10px;
+      padding:8px 10px;
+      margin-bottom:8px;
     }
 
     .toolbar-grid{
@@ -64,8 +64,8 @@
       gap:8px;
       align-items:end;
       justify-content:start;
-      margin-top:10px;
-      padding-top:10px;
+      margin-top:8px;
+      padding-top:8px;
       border-top:1px dashed var(--line);
     }
 
@@ -165,7 +165,7 @@
       display:flex;
       gap:8px;
       flex-wrap:wrap;
-      margin-top:10px;
+      margin-top:8px;
       font-size:12px;
       color:var(--muted);
     }
@@ -173,7 +173,7 @@
     .table-card{
       background:var(--card);
       border:1px solid var(--line);
-      border-radius:16px;
+      border-radius:12px;
       box-shadow:var(--shadow);
       overflow:hidden;
     }
@@ -195,7 +195,7 @@
       z-index:1;
       background:#eef3f8;
       border-bottom:1px solid var(--line);
-      padding:4px 2px;
+      padding:4px 3px;
       text-align:center;
       font-size:10px;
       white-space:nowrap;
@@ -204,7 +204,7 @@
 
     tbody td{
       border-bottom:1px solid #edf2f7;
-      padding:3px 2px;
+      padding:3px 3px;
       font-size:10px;
       white-space:nowrap;
       text-align:center;
@@ -217,11 +217,12 @@
 
     .tag{
       display:inline-block;
-      min-width:28px;
+      min-width:24px;
       padding:1px 4px;
       border-radius:999px;
       font-size:9px;
       font-weight:700;
+      line-height:1.1;
     }
 
     .tag.dep{ background:var(--dep); color:#1d4ed8; }
@@ -243,46 +244,39 @@
       font-weight:700;
     }
 
-    .col-time{min-width:70px;}
-    .col-dir{min-width:36px;}
-    .col-airline{min-width:52px;}
-    .col-flight{min-width:40px;}
-    .col-acft{min-width:48px;}
-    .col-org{min-width:40px;}
-    .col-dst{min-width:40px;}
+    .col-time{min-width:84px;}
+    .col-dir{min-width:42px;}
+    .col-airline{min-width:64px;}
+    .col-flight{min-width:54px;}
+    .col-acft{min-width:72px;}
+    .col-org{min-width:48px;}
+    .col-dst{min-width:48px;}
 
     @media (max-width: 980px){
       :root{
-        --w-airport:146px;
-        --w-filter:146px;
-        --w-date:112px;
+        --w-airport:100px;
+        --w-filter:100px;
+        --w-date:100px;
         --w-time:84px;
       }
 
       .toolbar-grid{
         grid-template-columns:auto auto;
-        gap:8px 10px;
+        gap:8px 8px;
         align-items:end;
         justify-content:start;
       }
 
       .filter-grid{
         grid-template-columns:auto auto;
-        gap:8px 10px;
+        gap:8px 8px;
         align-items:end;
         justify-content:start;
       }
 
-      .toolbar-grid .actions{
-        grid-column:1 / -1;
-      }
-
+      .toolbar-grid .actions,
       .filter-grid .actions{
         grid-column:1 / -1;
-      }
-
-      .field{
-        width:fit-content;
       }
 
       .actions{
@@ -298,19 +292,12 @@
         height:30px;
         font-size:11px;
         padding:0 10px;
-        flex:0 0 auto;
-        width:auto;
       }
 
       .field input,
       .field select{
         height:34px;
         font-size:13px;
-      }
-
-      .dt-row{
-        grid-template-columns:var(--w-date) var(--w-time);
-        gap:5px;
       }
 
       .meta{
@@ -328,45 +315,113 @@
         font-size:9px;
       }
 
-      .col-time{min-width:64px;}
-      .col-dir{min-width:32px;}
-      .col-airline{min-width:46px;}
-      .col-flight{min-width:36px;}
-      .col-acft{min-width:42px;}
-      .col-org{min-width:36px;}
-      .col-dst{min-width:36px;}
+      .col-time{min-width:74px;}
+      .col-dir{min-width:38px;}
+      .col-airline{min-width:56px;}
+      .col-flight{min-width:48px;}
+      .col-acft{min-width:64px;}
+      .col-org{min-width:44px;}
+      .col-dst{min-width:44px;}
     }
 
     @media (max-width: 560px){
       :root{
-        --w-airport:144px;
-        --w-filter:144px;
-        --w-date:106px;
-        --w-time:88px;
+        --w-airport:96px;
+        --w-filter:96px;
+        --w-date:94px;
+        --w-time:82px;
       }
 
       .toolbar{
-        padding:9px;
+        padding:8px;
       }
 
       .toolbar-grid{
-        grid-template-columns:auto auto;
+        grid-template-columns:1fr 1fr;
+        grid-template-areas:
+          "airport airport"
+          "start end"
+          "actions actions";
         gap:8px 8px;
+        align-items:end;
+        justify-content:start;
+      }
+
+      .toolbar-grid .field.airport-field{
+        grid-area:airport;
+      }
+
+      .toolbar-grid .field.start-field{
+        grid-area:start;
+      }
+
+      .toolbar-grid .field.end-field{
+        grid-area:end;
+      }
+
+      .toolbar-grid .actions{
+        grid-area:actions;
       }
 
       .filter-grid{
-        grid-template-columns:auto auto;
+        grid-template-columns:1fr 1fr;
+        grid-template-areas:
+          "origin destination"
+          "filterActions filterActions";
         gap:8px 8px;
+        align-items:end;
+        justify-content:start;
       }
 
-      .toolbar-grid .field,
-      .filter-grid .field{
-        min-width:0;
+      .filter-grid .field.origin-field{
+        grid-area:origin;
       }
 
-      .toolbar-grid .actions,
+      .filter-grid .field.destination-field{
+        grid-area:destination;
+      }
+
       .filter-grid .actions{
-        grid-column:1 / -1;
+        grid-area:filterActions;
+      }
+
+      .field{
+        width:100%;
+      }
+
+      .field input,
+      .field select{
+        width:100%;
+      }
+
+      .airport{
+        width:96px;
+      }
+
+      .filter-input{
+        width:100%;
+      }
+
+      .dt-row{
+        grid-template-columns:94px 82px;
+        gap:6px;
+        width:100%;
+      }
+
+      .date-fit{
+        width:94px;
+        min-width:94px;
+        max-width:94px;
+      }
+
+      .time-fit{
+        width:82px;
+        min-width:82px;
+        max-width:82px;
+      }
+
+      .actions{
+        width:100%;
       }
     }
   </style>
@@ -376,12 +431,12 @@
 
     <div class="toolbar">
       <div class="toolbar-grid">
-        <div class="field">
+        <div class="field airport-field">
           <label>공항(ICAO)</label>
           <input id="airport" class="airport" type="text" value="RJTT" maxlength="4" placeholder="RJTT">
         </div>
 
-        <div class="field">
+        <div class="field start-field">
           <label>START (LOCAL)</label>
           <div class="dt-row">
             <input id="startDate" class="date-fit" type="date">
@@ -389,7 +444,7 @@
           </div>
         </div>
 
-        <div class="field">
+        <div class="field end-field">
           <label>END (LOCAL)</label>
           <div class="dt-row">
             <input id="endDate" class="date-fit" type="date">
@@ -406,12 +461,12 @@
       </div>
 
       <div class="filter-grid">
-        <div class="field">
+        <div class="field origin-field">
           <label>출발공항 Filter</label>
           <input id="filterOrigin" class="filter-input" type="text" maxlength="4" placeholder="RJTT">
         </div>
 
-        <div class="field">
+        <div class="field destination-field">
           <label>도착공항 Filter</label>
           <input id="filterDestination" class="filter-input" type="text" maxlength="4" placeholder="RKSS">
         </div>
