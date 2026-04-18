@@ -314,18 +314,18 @@
     <div class="table-card">
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th class="col-time">TIME(Local)</th>
-              <th class="col-other-time">OTHER TIME(Local)</th>
-              <th class="col-dir">DEP/ARR</th>
-              <th class="col-airline">항공사</th>
-              <th class="col-flight">편명</th>
-              <th class="col-acft">기재</th>
-              <th class="col-org">출발공항</th>
-              <th class="col-dst">도착공항</th>
-            </tr>
-          </thead>
+        <thead>
+  <tr>
+    <th class="col-time">DEP TIME(Local)</th>
+    <th class="col-other-time">ARR TIME(Local)</th>
+    <th class="col-dir">DEP/ARR</th>
+    <th class="col-airline">항공사</th>
+    <th class="col-flight">편명</th>
+    <th class="col-acft">기재</th>
+    <th class="col-org">출발공항</th>
+    <th class="col-dst">도착공항</th>
+  </tr>
+</thead>
           <tbody id="tbody">
             <tr><td colspan="8" class="empty">조회 결과가 없습니다.</td></tr>
           </tbody>
@@ -404,18 +404,18 @@
         return;
       }
 
-      tbody.innerHTML = rows.map(r => `
-        <tr>
-          <td class="col-time">${escapeHtml(r.timeLocal || r.timeUtc || '')}</td>
-          <td class="col-other-time">${escapeHtml(r.otherTimeLocal || '')}</td>
-          <td class="col-dir"><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
-          <td class="col-airline">${escapeHtml(r.airline || '')}</td>
-          <td class="col-flight">${escapeHtml(r.flightNumber || '')}</td>
-          <td class="col-acft">${escapeHtml(r.aircraft || '')}</td>
-          <td class="col-org">${escapeHtml(r.origin || '')}</td>
-          <td class="col-dst">${escapeHtml(r.destination || '')}</td>
-        </tr>
-      `).join('');
+    tbody.innerHTML = rows.map(r => `
+  <tr>
+    <td class="col-time">${escapeHtml(r.originTimeLocal || '')}</td>
+    <td class="col-other-time">${escapeHtml(r.destinationTimeLocal || '')}</td>
+    <td class="col-dir"><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
+    <td class="col-airline">${escapeHtml(r.airline || '')}</td>
+    <td class="col-flight">${escapeHtml(r.flightNumber || '')}</td>
+    <td class="col-acft">${escapeHtml(r.aircraft || '')}</td>
+    <td class="col-org">${escapeHtml(r.origin || '')}</td>
+    <td class="col-dst">${escapeHtml(r.destination || '')}</td>
+  </tr>
+`).join('');
     }
 
     function jsonp(url) {
