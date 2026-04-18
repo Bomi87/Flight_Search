@@ -31,8 +31,8 @@
 
     .wrap{
       max-width:1400px;
-      margin:24px auto;
-      padding:0 16px;
+      margin:20px auto;
+      padding:0 10px;
     }
 
     .toolbar{
@@ -40,32 +40,42 @@
       border:1px solid var(--line);
       border-radius:16px;
       box-shadow:var(--shadow);
-      padding:18px;
-      margin-bottom:16px;
+      padding:14px;
+      margin-bottom:14px;
     }
 
     .toolbar-grid{
       display:grid;
-      grid-template-columns: 180px 220px 220px auto;
-      gap:12px;
+      grid-template-columns: 140px 205px 205px auto;
+      gap:8px;
       align-items:end;
+    }
+
+    .filter-grid{
+      display:grid;
+      grid-template-columns: 130px 130px auto;
+      gap:8px;
+      align-items:end;
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px dashed var(--line);
     }
 
     .field label{
       display:block;
-      font-size:13px;
+      font-size:12px;
       color:var(--muted);
-      margin-bottom:6px;
+      margin-bottom:5px;
       font-weight:700;
     }
 
     .field input{
       width:100%;
-      height:42px;
+      height:40px;
       border:1px solid var(--line);
       border-radius:10px;
-      padding:0 12px;
-      font-size:15px;
+      padding:0 10px;
+      font-size:14px;
       background:#fff;
     }
 
@@ -77,42 +87,40 @@
 
     .hint{
       margin-top:4px;
-      font-size:12px;
+      font-size:11px;
       color:var(--muted);
     }
 
     .actions{
       display:flex;
-      gap:10px;
+      gap:8px;
       flex-wrap:wrap;
     }
 
     .btn{
-      height:42px;
-      padding:0 18px;
+      height:40px;
+      padding:0 14px;
       border:none;
       border-radius:10px;
       background:var(--btn);
       color:#fff;
       font-weight:700;
+      font-size:13px;
       cursor:pointer;
       box-shadow:0 2px 0 rgba(0,0,0,.18);
+      white-space:nowrap;
     }
 
     .btn:hover{background:var(--btn-dark)}
-    .btn-primary{
-      background:var(--blue);
-    }
-    .btn-primary:hover{
-      background:var(--blue-dark);
-    }
+    .btn-primary{background:var(--blue);}
+    .btn-primary:hover{background:var(--blue-dark);}
 
     .meta{
       display:flex;
-      gap:16px;
+      gap:12px;
       flex-wrap:wrap;
-      margin-top:12px;
-      font-size:13px;
+      margin-top:10px;
+      font-size:12px;
       color:var(--muted);
     }
 
@@ -126,13 +134,13 @@
 
     .table-wrap{
       overflow:auto;
-      max-height:75vh;
+      max-height:76vh;
     }
 
     table{
       width:100%;
       border-collapse:collapse;
-      min-width:980px;
+      min-width:760px;
     }
 
     thead th{
@@ -141,18 +149,20 @@
       z-index:1;
       background:#eef3f8;
       border-bottom:1px solid var(--line);
-      padding:12px 10px;
+      padding:8px 6px;
       text-align:center;
-      font-size:14px;
+      font-size:12px;
       white-space:nowrap;
+      line-height:1.2;
     }
 
     tbody td{
       border-bottom:1px solid #edf2f7;
-      padding:10px;
-      font-size:14px;
+      padding:7px 5px;
+      font-size:12px;
       white-space:nowrap;
       text-align:center;
+      line-height:1.2;
     }
 
     tbody tr:hover{
@@ -161,10 +171,10 @@
 
     .tag{
       display:inline-block;
-      min-width:52px;
-      padding:4px 10px;
+      min-width:44px;
+      padding:3px 8px;
       border-radius:999px;
-      font-size:12px;
+      font-size:11px;
       font-weight:700;
     }
 
@@ -172,7 +182,7 @@
     .tag.arr{ background:var(--arr); color:#15803d; }
 
     .empty{
-      padding:36px 18px;
+      padding:30px 14px;
       text-align:center;
       color:var(--muted);
     }
@@ -187,16 +197,63 @@
       font-weight:700;
     }
 
+    .col-time{min-width:110px;}
+    .col-dir{min-width:60px;}
+    .col-airline{min-width:90px;}
+    .col-flight{min-width:70px;}
+    .col-acft{min-width:85px;}
+    .col-org{min-width:70px;}
+    .col-dst{min-width:70px;}
+
     @media (max-width: 980px){
-      .toolbar-grid{
+      .toolbar-grid,
+      .filter-grid{
         grid-template-columns: 1fr;
       }
+
       .actions{
         width:100%;
       }
+
       .btn{
         flex:1 1 auto;
       }
+
+      .wrap{
+        padding:0 6px;
+      }
+
+      .toolbar{
+        padding:10px;
+      }
+
+      table{
+        min-width:640px;
+      }
+
+      thead th{
+        padding:7px 4px;
+        font-size:11px;
+      }
+
+      tbody td{
+        padding:6px 4px;
+        font-size:11px;
+      }
+
+      .tag{
+        min-width:40px;
+        padding:2px 6px;
+        font-size:10px;
+      }
+
+      .col-time{min-width:98px;}
+      .col-dir{min-width:50px;}
+      .col-airline{min-width:72px;}
+      .col-flight{min-width:58px;}
+      .col-acft{min-width:72px;}
+      .col-org{min-width:58px;}
+      .col-dst{min-width:58px;}
     }
   </style>
 </head>
@@ -211,13 +268,13 @@
         </div>
 
         <div class="field">
-          <label>START (LOCAL, 24H)</label>
+          <label>START (LOCAL)</label>
           <input id="startLocal" type="datetime-local" step="60">
           <div class="hint">기본값: 오늘 06:00</div>
         </div>
 
         <div class="field">
-          <label>END (LOCAL, 24H)</label>
+          <label>END (LOCAL)</label>
           <input id="endLocal" type="datetime-local" step="60">
           <div class="hint">자동값: 같은 날짜 23:59</div>
         </div>
@@ -227,6 +284,23 @@
           <button class="btn" id="btnAll">전체</button>
           <button class="btn" id="btnDep">DEP</button>
           <button class="btn" id="btnArr">ARR</button>
+        </div>
+      </div>
+
+      <div class="filter-grid">
+        <div class="field">
+          <label>출발공항 Filter</label>
+          <input id="filterOrigin" type="text" maxlength="4" placeholder="예: RJTT">
+        </div>
+
+        <div class="field">
+          <label>도착공항 Filter</label>
+          <input id="filterDestination" type="text" maxlength="4" placeholder="예: RKSS">
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="btnApplyFilter">Filter</button>
+          <button class="btn" id="btnClearFilter">Clear</button>
         </div>
       </div>
 
@@ -243,13 +317,13 @@
         <table>
           <thead>
             <tr>
-              <th>TIME(UTC)</th>
-              <th>DEP/ARR</th>
-              <th>항공사</th>
-              <th>편명</th>
-              <th>기재</th>
-              <th>출발공항</th>
-              <th>도착공항</th>
+              <th class="col-time">TIME(UTC)</th>
+              <th class="col-dir">DEP/ARR</th>
+              <th class="col-airline">항공사</th>
+              <th class="col-flight">편명</th>
+              <th class="col-acft">기재</th>
+              <th class="col-org">출발공항</th>
+              <th class="col-dst">도착공항</th>
             </tr>
           </thead>
           <tbody id="tbody">
@@ -266,6 +340,10 @@
 
     let allRows = [];
     let currentFilter = 'ALL';
+    let airportFilters = {
+      origin: '',
+      destination: ''
+    };
 
     const $ = (id) => document.getElementById(id);
 
@@ -286,15 +364,29 @@
       if (type === 'ok') el.classList.add('status-ok');
     }
 
-    function renderRows() {
-      const tbody = $('tbody');
-      let rows = allRows;
+    function getFilteredRows() {
+      let rows = [...allRows];
 
       if (currentFilter === 'DEP') {
         rows = rows.filter(r => r.depArr === 'DEP');
       } else if (currentFilter === 'ARR') {
         rows = rows.filter(r => r.depArr === 'ARR');
       }
+
+      if (airportFilters.origin) {
+        rows = rows.filter(r => String(r.origin || '').toUpperCase() === airportFilters.origin);
+      }
+
+      if (airportFilters.destination) {
+        rows = rows.filter(r => String(r.destination || '').toUpperCase() === airportFilters.destination);
+      }
+
+      return rows;
+    }
+
+    function renderRows() {
+      const tbody = $('tbody');
+      const rows = getFilteredRows();
 
       $('metaCount').textContent = rows.length;
 
@@ -305,17 +397,17 @@
 
       tbody.innerHTML = rows.map(r => `
         <tr>
-          <td>${escapeHtml(r.timeUtc || '')}</td>
-          <td>
+          <td class="col-time">${escapeHtml(r.timeUtc || '')}</td>
+          <td class="col-dir">
             <span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">
               ${escapeHtml(r.depArr || '')}
             </span>
           </td>
-          <td>${escapeHtml(r.airline || '')}</td>
-          <td>${escapeHtml(r.flightNumber || '')}</td>
-          <td>${escapeHtml(r.aircraft || '')}</td>
-          <td>${escapeHtml(r.origin || '')}</td>
-          <td>${escapeHtml(r.destination || '')}</td>
+          <td class="col-airline">${escapeHtml(r.airline || '')}</td>
+          <td class="col-flight">${escapeHtml(r.flightNumber || '')}</td>
+          <td class="col-acft">${escapeHtml(r.aircraft || '')}</td>
+          <td class="col-org">${escapeHtml(r.origin || '')}</td>
+          <td class="col-dst">${escapeHtml(r.destination || '')}</td>
         </tr>
       `).join('');
     }
@@ -376,6 +468,20 @@
       $('endLocal').value = `${datePart}T23:59`;
     }
 
+    function applyAirportFilter() {
+      airportFilters.origin = $('filterOrigin').value.trim().toUpperCase();
+      airportFilters.destination = $('filterDestination').value.trim().toUpperCase();
+      renderRows();
+    }
+
+    function clearAirportFilter() {
+      $('filterOrigin').value = '';
+      $('filterDestination').value = '';
+      airportFilters.origin = '';
+      airportFilters.destination = '';
+      renderRows();
+    }
+
     async function searchSchedule() {
       const airport = $('airport').value.trim().toUpperCase();
       const start = $('startLocal').value.trim();
@@ -420,7 +526,7 @@
         currentFilter = 'ALL';
         renderRows();
 
-        if (allRows.length === 0) {
+        if (getFilteredRows().length === 0) {
           setStatus('정상 (0건)', 'ok');
         } else {
           setStatus('정상', 'ok');
@@ -450,8 +556,27 @@
       renderRows();
     });
 
+    $('btnApplyFilter').addEventListener('click', applyAirportFilter);
+    $('btnClearFilter').addEventListener('click', clearAirportFilter);
+
     $('airport').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+    });
+
+    $('filterOrigin').addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+    });
+
+    $('filterDestination').addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+    });
+
+    $('filterOrigin').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') applyAirportFilter();
+    });
+
+    $('filterDestination').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') applyAirportFilter();
     });
 
     $('startLocal').addEventListener('change', syncEndWithStartDate);
