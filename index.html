@@ -168,9 +168,14 @@
     .btn:hover{background:var(--btn-dark)}
     .btn-primary{background:var(--blue);}
     .btn-primary:hover{background:var(--blue-dark);}
-    .btn-popup{background:#2563eb;}
-    .btn-popup:hover{background:#1d4ed8;}
+   .btn-popup{background:#2563eb;}
+.btn-popup:hover{background:#1d4ed8;}
 
+#btnPopup{
+  display:inline-flex;
+  margin-left:auto;
+  margin-right:auto;
+}
     .pc-only-inline{
       display:inline-flex;
     }
@@ -459,7 +464,7 @@
       <div class="toolbar-grid">
         <div class="field airport-field">
           <label>공항(ICAO)</label>
-          <input id="airport" class="airport" type="text" value="RJTT" maxlength="4" placeholder="RJTT">
+          <input id="airport" class="airport" type="text" value="" maxlength="4" placeholder="RJTT">
         </div>
 
         <div class="field start-field">
