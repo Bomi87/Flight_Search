@@ -31,8 +31,8 @@
 
     .wrap{
       max-width:1400px;
-      margin:14px auto;
-      padding:0 6px;
+      margin:12px auto;
+      padding:0 4px;
     }
 
     .toolbar{
@@ -40,8 +40,8 @@
       border:1px solid var(--line);
       border-radius:16px;
       box-shadow:var(--shadow);
-      padding:12px;
-      margin-bottom:12px;
+      padding:10px;
+      margin-bottom:10px;
     }
 
     .toolbar-grid{
@@ -74,7 +74,7 @@
     .field input,
     .field select{
       width:100%;
-      height:36px;
+      height:34px;
       border:1px solid var(--line);
       border-radius:10px;
       padding:0 8px;
@@ -90,20 +90,20 @@
 
     .dt-row{
       display:grid;
-      grid-template-columns: 1fr 86px;
+      grid-template-columns: 1fr 78px;
       gap:6px;
       align-items:center;
     }
 
     .actions{
       display:flex;
-      gap:8px;
+      gap:6px;
       flex-wrap:wrap;
     }
 
     .btn{
-      height:36px;
-      padding:0 12px;
+      height:34px;
+      padding:0 10px;
       border:none;
       border-radius:10px;
       background:var(--btn);
@@ -113,6 +113,7 @@
       cursor:pointer;
       box-shadow:0 2px 0 rgba(0,0,0,.18);
       white-space:nowrap;
+      min-width:0;
     }
 
     .btn:hover{background:var(--btn-dark)}
@@ -121,7 +122,7 @@
 
     .meta{
       display:flex;
-      gap:10px;
+      gap:8px;
       flex-wrap:wrap;
       margin-top:10px;
       font-size:12px;
@@ -144,7 +145,7 @@
     table{
       width:100%;
       border-collapse:collapse;
-      min-width:640px;
+      min-width:560px;
     }
 
     thead th{
@@ -153,20 +154,20 @@
       z-index:1;
       background:#eef3f8;
       border-bottom:1px solid var(--line);
-      padding:6px 4px;
+      padding:5px 3px;
       text-align:center;
-      font-size:11px;
+      font-size:10px;
       white-space:nowrap;
-      line-height:1.15;
+      line-height:1.1;
     }
 
     tbody td{
       border-bottom:1px solid #edf2f7;
-      padding:5px 4px;
-      font-size:11px;
+      padding:4px 3px;
+      font-size:10px;
       white-space:nowrap;
       text-align:center;
-      line-height:1.15;
+      line-height:1.1;
     }
 
     tbody tr:hover{
@@ -175,10 +176,10 @@
 
     .tag{
       display:inline-block;
-      min-width:38px;
-      padding:2px 6px;
+      min-width:34px;
+      padding:2px 5px;
       border-radius:999px;
-      font-size:10px;
+      font-size:9px;
       font-weight:700;
     }
 
@@ -186,7 +187,7 @@
     .tag.arr{ background:var(--arr); color:#15803d; }
 
     .empty{
-      padding:24px 10px;
+      padding:20px 8px;
       text-align:center;
       color:var(--muted);
     }
@@ -201,13 +202,13 @@
       font-weight:700;
     }
 
-    .col-time{min-width:88px;}
-    .col-dir{min-width:48px;}
-    .col-airline{min-width:70px;}
-    .col-flight{min-width:56px;}
-    .col-acft{min-width:68px;}
-    .col-org{min-width:54px;}
-    .col-dst{min-width:54px;}
+    .col-time{min-width:78px;}
+    .col-dir{min-width:42px;}
+    .col-airline{min-width:58px;}
+    .col-flight{min-width:46px;}
+    .col-acft{min-width:54px;}
+    .col-org{min-width:46px;}
+    .col-dst{min-width:46px;}
 
     @media (max-width: 980px){
       .toolbar-grid,
@@ -216,48 +217,37 @@
       }
 
       .actions{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap:6px;
         width:100%;
       }
 
       .btn{
-        flex:1 1 auto;
+        width:100%;
+        height:32px;
+        font-size:11px;
+        padding:0 8px;
       }
 
-      .wrap{
-        padding:0 4px;
+      .field input,
+      .field select{
+        height:32px;
+        font-size:12px;
       }
 
-      .toolbar{
-        padding:9px;
+      .dt-row{
+        grid-template-columns: 1fr 72px;
+      }
+
+      .meta{
+        font-size:11px;
+        gap:6px;
       }
 
       table{
-        min-width:560px;
+        min-width:520px;
       }
-
-      thead th{
-        padding:5px 3px;
-        font-size:10px;
-      }
-
-      tbody td{
-        padding:4px 3px;
-        font-size:10px;
-      }
-
-      .tag{
-        min-width:34px;
-        padding:2px 5px;
-        font-size:9px;
-      }
-
-      .col-time{min-width:80px;}
-      .col-dir{min-width:42px;}
-      .col-airline{min-width:58px;}
-      .col-flight{min-width:50px;}
-      .col-acft{min-width:58px;}
-      .col-org{min-width:48px;}
-      .col-dst{min-width:48px;}
     }
   </style>
 </head>
@@ -325,7 +315,7 @@
         <table>
           <thead>
             <tr>
-              <th class="col-time">TIME(UTC)</th>
+              <th class="col-time">TIME(Local)</th>
               <th class="col-dir">DEP/ARR</th>
               <th class="col-airline">항공사</th>
               <th class="col-flight">편명</th>
@@ -344,7 +334,7 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFbAdnUVyctPPIDkPtgg6l4Jwfv0NxUAeEleSeRImlbZy-3-xJ4hqY8n5I4Cqs4vf9/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzmKY1KMiWSbmOUTnWeCZdlO26OW9WZJ0lm6b-XOXDyEeCWSu266WNPt5NfCI8Xs5sq/exec';
 
     let allRows = [];
     let currentFilter = 'ALL';
@@ -375,13 +365,10 @@
     function populateTimeSelect(selectEl, defaultValue) {
       const times = [];
       for (let h = 0; h < 24; h++) {
-        for (let m = 0; m < 60; m++) {
-          if (m !== 0 && m !== 59) continue;
-          const hh = String(h).padStart(2, '0');
-          const mm = String(m).padStart(2, '0');
-          times.push(`${hh}:${mm}`);
-        }
+        const hh = String(h).padStart(2, '0');
+        times.push(`${hh}:00`);
       }
+      times.push('23:59');
 
       selectEl.innerHTML = times.map(t => `<option value="${t}">${t}</option>`).join('');
       selectEl.value = defaultValue;
@@ -390,16 +377,12 @@
     function getFilteredRows() {
       let rows = [...allRows];
 
-      if (currentFilter === 'DEP') {
-        rows = rows.filter(r => r.depArr === 'DEP');
-      } else if (currentFilter === 'ARR') {
-        rows = rows.filter(r => r.depArr === 'ARR');
-      }
+      if (currentFilter === 'DEP') rows = rows.filter(r => r.depArr === 'DEP');
+      else if (currentFilter === 'ARR') rows = rows.filter(r => r.depArr === 'ARR');
 
       if (airportFilters.origin) {
         rows = rows.filter(r => String(r.origin || '').toUpperCase() === airportFilters.origin);
       }
-
       if (airportFilters.destination) {
         rows = rows.filter(r => String(r.destination || '').toUpperCase() === airportFilters.destination);
       }
@@ -420,10 +403,8 @@
 
       tbody.innerHTML = rows.map(r => `
         <tr>
-          <td class="col-time">${escapeHtml(r.timeUtc || '')}</td>
-          <td class="col-dir">
-            <span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span>
-          </td>
+          <td class="col-time">${escapeHtml(r.timeLocal || r.timeUtc || '')}</td>
+          <td class="col-dir"><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
           <td class="col-airline">${escapeHtml(r.airline || '')}</td>
           <td class="col-flight">${escapeHtml(r.flightNumber || '')}</td>
           <td class="col-acft">${escapeHtml(r.aircraft || '')}</td>
@@ -525,10 +506,6 @@
         alert('종료시간은 시작시간보다 나중이어야 합니다.');
         return;
       }
-      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
-        alert('APPS_SCRIPT_URL을 실제 웹앱 URL로 바꿔주세요.');
-        return;
-      }
 
       setStatus('조회 중...');
       $('metaAirport').textContent = airport;
@@ -552,11 +529,8 @@
         currentFilter = 'ALL';
         renderRows();
 
-        if (getFilteredRows().length === 0) {
-          setStatus('정상 (0건)', 'ok');
-        } else {
-          setStatus('정상', 'ok');
-        }
+        if (getFilteredRows().length === 0) setStatus('정상 (0건)', 'ok');
+        else setStatus('정상', 'ok');
 
       } catch (err) {
         allRows = [];
@@ -566,44 +540,24 @@
     }
 
     $('btnSearch').addEventListener('click', searchSchedule);
-
-    $('btnAll').addEventListener('click', () => {
-      currentFilter = 'ALL';
-      renderRows();
-    });
-
-    $('btnDep').addEventListener('click', () => {
-      currentFilter = 'DEP';
-      renderRows();
-    });
-
-    $('btnArr').addEventListener('click', () => {
-      currentFilter = 'ARR';
-      renderRows();
-    });
-
+    $('btnAll').addEventListener('click', () => { currentFilter = 'ALL'; renderRows(); });
+    $('btnDep').addEventListener('click', () => { currentFilter = 'DEP'; renderRows(); });
+    $('btnArr').addEventListener('click', () => { currentFilter = 'ARR'; renderRows(); });
     $('btnApplyFilter').addEventListener('click', applyAirportFilter);
     $('btnClearFilter').addEventListener('click', clearAirportFilter);
 
     $('airport').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
     });
-
     $('filterOrigin').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
     });
-
     $('filterDestination').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
     });
 
-    $('filterOrigin').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') applyAirportFilter();
-    });
-
-    $('filterDestination').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') applyAirportFilter();
-    });
+    $('filterOrigin').addEventListener('keydown', (e) => { if (e.key === 'Enter') applyAirportFilter(); });
+    $('filterDestination').addEventListener('keydown', (e) => { if (e.key === 'Enter') applyAirportFilter(); });
 
     $('startDate').addEventListener('change', syncEndWithStartDate);
     $('startTime').addEventListener('change', syncEndWithStartDate);
