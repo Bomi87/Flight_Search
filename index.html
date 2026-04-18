@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Airport Schedule Search</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --line:#d7e0ea;
+      --text:#1f2d3d;
+      --muted:#6b7c93;
+      --blue:#4a6fa5;
+      --blue-dark:#395782;
+      --yellow:#fff55a;
+      --btn:#7c8794;
+      --btn-dark:#5f6974;
+      --dep:#dbeafe;
+      --arr:#dcfce7;
+      --shadow:0 8px 24px rgba(15,23,42,.08);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    .wrap{
+      max-width:1400px;
+      margin:24px auto;
+      padding:0 16px;
+    }
+
+    .toolbar{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      padding:18px;
+      margin-bottom:16px;
+    }
+
+    .toolbar-grid{
+      display:grid;
+      grid-template-columns: 180px 220px 220px auto;
+      gap:12px;
+      align-items:end;
+    }
+
+    .field label{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:6px;
+      font-weight:700;
+    }
+
+    .field input{
+      width:100%;
+      height:42px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:0 12px;
+      font-size:15px;
+      background:#fff;
+    }
+
+    .field input.airport{
+      background:var(--yellow);
+      font-weight:700;
+      text-transform:uppercase;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      height:42px;
+      padding:0 18px;
+      border:none;
+      border-radius:10px;
+      background:var(--btn);
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 2px 0 rgba(0,0,0,.18);
+    }
+
+    .btn:hover{background:var(--btn-dark)}
+    .btn-primary{
+      background:var(--blue);
+    }
+    .btn-primary:hover{
+      background:var(--blue-dark);
+    }
+
+    .meta{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-top:12px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .table-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .table-wrap{
+      overflow:auto;
+      max-height:75vh;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:980px;
+    }
+
+    thead th{
+      position:sticky;
+      top:0;
+      z-index:1;
+      background:#eef3f8;
+      border-bottom:1px solid var(--line);
+      padding:12px 10px;
+      text-align:center;
+      font-size:14px;
+      white-space:nowrap;
+    }
+
+    tbody td{
+      border-bottom:1px solid #edf2f7;
+      padding:10px;
+      font-size:14px;
+      white-space:nowrap;
+      text-align:center;
+    }
+
+    tbody tr:hover{
+      background:#f8fbff;
+    }
+
+    .tag{
+      display:inline-block;
+      min-width:52px;
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .tag.dep{ background:var(--dep); color:#1d4ed8; }
+    .tag.arr{ background:var(--arr); color:#15803d; }
+
+    .empty{
+      padding:36px 18px;
+      text-align:center;
+      color:var(--muted);
+    }
+
+    .status-error{
+      color:#b91c1c;
+      font-weight:700;
+    }
+
+    .status-ok{
+      color:#166534;
+      font-weight:700;
+    }
+
+    @media (max-width: 980px){
+      .toolbar-grid{
+        grid-template-columns: 1fr;
+      }
+      .actions{
+        width:100%;
+      }
+      .btn{
+        flex:1 1 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="toolbar">
+      <div class="toolbar-grid">
+        <div class="field">
+          <label>공항(ICAO)</label>
+          <input id="airport" class="airport" type="text" value="RJTT" maxlength="4" placeholder="RJTT">
+        </div>
+
+        <div class="field">
+          <label>START (LOCAL)</label>
+          <input id="startLocal" type="datetime-local" value="2026-03-05T10:00">
+        </div>
+
+        <div class="field">
+          <label>END (LOCAL)</label>
+          <input id="endLocal" type="datetime-local" value="2026-03-05T20:00">
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" id="btnSearch">스케줄 조회</button>
+          <button class="btn" id="btnAll">전체</button>
+          <button class="btn" id="btnDep">DEP</button>
+          <button class="btn" id="btnArr">ARR</button>
+          <button class="btn" id="btnReset">해제</button>
+        </div>
+      </div>
+
+      <div class="meta">
+        <div>공항: <strong id="metaAirport">-</strong></div>
+        <div>기간: <strong id="metaPeriod">-</strong></div>
+        <div>건수: <strong id="metaCount">0</strong></div>
+        <div>상태: <strong id="metaStatus">대기</strong></div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>TIME(UTC)</th>
+              <th>DEP/ARR</th>
+              <th>항공사</th>
+              <th>편명</th>
+              <th>기재</th>
+              <th>출발공항</th>
+              <th>도착공항</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr><td colspan="7" class="empty">조회 결과가 없습니다.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ===== 여기를 본인 Apps Script 웹앱 URL로 교체 =====
+    const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL';
+
+    let allRows = [];
+    let currentFilter = 'ALL';
+
+    const $ = (id) => document.getElementById(id);
+
+    function escapeHtml(text) {
+      return String(text ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function setStatus(text, type = '') {
+      const el = $('metaStatus');
+      el.textContent = text;
+      el.className = '';
+      if (type === 'error') el.classList.add('status-error');
+      if (type === 'ok') el.classList.add('status-ok');
+    }
+
+    function renderRows() {
+      const tbody = $('tbody');
+      let rows = allRows;
+
+      if (currentFilter === 'DEP') {
+        rows = rows.filter(r => r.depArr === 'DEP');
+      } else if (currentFilter === 'ARR') {
+        rows = rows.filter(r => r.depArr === 'ARR');
+      }
+
+      $('metaCount').textContent = rows.length;
+
+      if (!rows.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="empty">조회 결과가 없습니다.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td>${escapeHtml(r.timeUtc || '')}</td>
+          <td>
+            <span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">
+              ${escapeHtml(r.depArr || '')}
+            </span>
+          </td>
+          <td>${escapeHtml(r.airline || '')}</td>
+          <td>${escapeHtml(r.flightNumber || '')}</td>
+          <td>${escapeHtml(r.aircraft || '')}</td>
+          <td>${escapeHtml(r.origin || '')}</td>
+          <td>${escapeHtml(r.destination || '')}</td>
+        </tr>
+      `).join('');
+    }
+
+    function resetView() {
+      allRows = [];
+      currentFilter = 'ALL';
+      $('metaAirport').textContent = '-';
+      $('metaPeriod').textContent = '-';
+      $('metaCount').textContent = '0';
+      setStatus('대기');
+      renderRows();
+    }
+
+    function jsonp(url) {
+      return new Promise((resolve, reject) => {
+        const callbackName = 'jsonp_cb_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
+
+        window[callbackName] = (data) => {
+          cleanup();
+          resolve(data);
+        };
+
+        const script = document.createElement('script');
+        script.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + callbackName;
+        script.async = true;
+
+        script.onerror = () => {
+          cleanup();
+          reject(new Error('JSONP load failed.'));
+        };
+
+        const timer = setTimeout(() => {
+          cleanup();
+          reject(new Error('Request timeout.'));
+        }, 60000);
+
+        function cleanup() {
+          clearTimeout(timer);
+          if (script.parentNode) script.parentNode.removeChild(script);
+          try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
+        }
+
+        document.body.appendChild(script);
+      });
+    }
+
+    async function searchSchedule() {
+      const airport = $('airport').value.trim().toUpperCase();
+      const start = $('startLocal').value.trim();
+      const end = $('endLocal').value.trim();
+
+      if (!airport) {
+        alert('공항 ICAO 코드를 입력해주세요.');
+        return;
+      }
+      if (!start || !end) {
+        alert('시작/종료 시간을 입력해주세요.');
+        return;
+      }
+      if (end <= start) {
+        alert('종료시간은 시작시간보다 나중이어야 합니다.');
+        return;
+      }
+      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
+        alert('APPS_SCRIPT_URL을 실제 웹앱 URL로 바꿔주세요.');
+        return;
+      }
+
+      setStatus('조회 중...');
+      $('metaAirport').textContent = airport;
+      $('metaPeriod').textContent = `${start} ~ ${end}`;
+
+      const url =
+        APPS_SCRIPT_URL +
+        '?action=schedule' +
+        '&airport=' + encodeURIComponent(airport) +
+        '&start=' + encodeURIComponent(start) +
+        '&end=' + encodeURIComponent(end);
+
+      try {
+        const data = await jsonp(url);
+
+        if (!data || !data.ok) {
+          throw new Error((data && data.error) || 'Unknown error');
+        }
+
+        allRows = Array.isArray(data.rows) ? data.rows : [];
+        currentFilter = 'ALL';
+        renderRows();
+        setStatus('정상', 'ok');
+
+      } catch (err) {
+        allRows = [];
+        renderRows();
+        setStatus('오류: ' + (err.message || err), 'error');
+      }
+    }
+
+    $('btnSearch').addEventListener('click', searchSchedule);
+
+    $('btnAll').addEventListener('click', () => {
+      currentFilter = 'ALL';
+      renderRows();
+    });
+
+    $('btnDep').addEventListener('click', () => {
+      currentFilter = 'DEP';
+      renderRows();
+    });
+
+    $('btnArr').addEventListener('click', () => {
+      currentFilter = 'ARR';
+      renderRows();
+    });
+
+    $('btnReset').addEventListener('click', resetView);
+
+    $('airport').addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+    });
+
+    renderRows();
+  </script>
+</body>
+</html>
