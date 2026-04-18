@@ -145,7 +145,7 @@
     table{
       width:100%;
       border-collapse:collapse;
-      min-width:560px;
+      min-width:720px;
     }
 
     thead th{
@@ -203,6 +203,7 @@
     }
 
     .col-time{min-width:78px;}
+    .col-other-time{min-width:78px;}
     .col-dir{min-width:42px;}
     .col-airline{min-width:58px;}
     .col-flight{min-width:46px;}
@@ -246,7 +247,7 @@
       }
 
       table{
-        min-width:520px;
+        min-width:680px;
       }
     }
   </style>
@@ -316,6 +317,7 @@
           <thead>
             <tr>
               <th class="col-time">TIME(Local)</th>
+              <th class="col-other-time">OTHER TIME(Local)</th>
               <th class="col-dir">DEP/ARR</th>
               <th class="col-airline">항공사</th>
               <th class="col-flight">편명</th>
@@ -325,7 +327,7 @@
             </tr>
           </thead>
           <tbody id="tbody">
-            <tr><td colspan="7" class="empty">조회 결과가 없습니다.</td></tr>
+            <tr><td colspan="8" class="empty">조회 결과가 없습니다.</td></tr>
           </tbody>
         </table>
       </div>
@@ -334,7 +336,7 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzmKY1KMiWSbmOUTnWeCZdlO26OW9WZJ0lm6b-XOXDyEeCWSu266WNPt5NfCI8Xs5sq/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby7eVgXgMlVCa3s6gfKMv7YrgQ2xkW9IGNnFLnWp0qQHVKJ7K1CLRnGT_MH_htFfNOr/exec';
 
     let allRows = [];
     let currentFilter = 'ALL';
@@ -383,6 +385,7 @@
       if (airportFilters.origin) {
         rows = rows.filter(r => String(r.origin || '').toUpperCase() === airportFilters.origin);
       }
+
       if (airportFilters.destination) {
         rows = rows.filter(r => String(r.destination || '').toUpperCase() === airportFilters.destination);
       }
@@ -397,13 +400,14 @@
       $('metaCount').textContent = rows.length;
 
       if (!rows.length) {
-        tbody.innerHTML = `<tr><td colspan="7" class="empty">조회 결과가 없습니다.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" class="empty">조회 결과가 없습니다.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = rows.map(r => `
         <tr>
           <td class="col-time">${escapeHtml(r.timeLocal || r.timeUtc || '')}</td>
+          <td class="col-other-time">${escapeHtml(r.otherTimeLocal || '')}</td>
           <td class="col-dir"><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
           <td class="col-airline">${escapeHtml(r.airline || '')}</td>
           <td class="col-flight">${escapeHtml(r.flightNumber || '')}</td>
@@ -549,15 +553,22 @@
     $('airport').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
     });
+
     $('filterOrigin').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
     });
+
     $('filterDestination').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
     });
 
-    $('filterOrigin').addEventListener('keydown', (e) => { if (e.key === 'Enter') applyAirportFilter(); });
-    $('filterDestination').addEventListener('keydown', (e) => { if (e.key === 'Enter') applyAirportFilter(); });
+    $('filterOrigin').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') applyAirportFilter();
+    });
+
+    $('filterDestination').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') applyAirportFilter();
+    });
 
     $('startDate').addEventListener('change', syncEndWithStartDate);
     $('startTime').addEventListener('change', syncEndWithStartDate);
