@@ -161,8 +161,6 @@
     .btn:hover{background:var(--btn-dark)}
     .btn-primary{background:var(--blue);}
     .btn-primary:hover{background:var(--blue-dark);}
-    .btn-popup{background:#2563eb;}
-    .btn-popup:hover{background:#1d4ed8;}
 
     .meta{
       display:flex;
@@ -254,10 +252,6 @@
     .col-acft{min-width:62px;}
     .col-org{min-width:42px;}
     .col-dst{min-width:42px;}
-
-    .pc-only-inline{
-      display:inline-flex;
-    }
 
     @media (max-width: 980px){
       :root{
@@ -374,7 +368,7 @@
         grid-template-areas:
           "origin destination"
           "filterActions filterActions";
-        gap:8px 8px;
+        gap:8px 0px;
         align-items:end;
         justify-content:start;
       }
@@ -431,10 +425,6 @@
         width:100%;
       }
 
-      .pc-only-inline{
-        display:none !important;
-      }
-
       .col-time{min-width:70px;}
       .col-dir{min-width:34px;}
       .col-airline{min-width:50px;}
@@ -476,7 +466,6 @@
           <button class="btn" id="btnAll">전체</button>
           <button class="btn" id="btnDep">DEP</button>
           <button class="btn" id="btnArr">ARR</button>
-          <button class="btn btn-popup pc-only-inline" id="btnPopup">결과 팝업</button>
         </div>
       </div>
 
@@ -537,6 +526,7 @@
       origin: '',
       destination: ''
     };
+    let lastPopupSignature = '';
 
     const $ = (id) => document.getElementById(id);
 
@@ -692,12 +682,23 @@
       return getFilteredRows();
     }
 
+    function getPopupSignature(rows, airport, periodText, filterText) {
+      return JSON.stringify({
+        airport,
+        periodText,
+        filterText,
+        count: rows.length,
+        first: rows[0] || null,
+        last: rows[rows.length - 1] || null
+      });
+    }
+
     function buildPopupHtml(rows, airport, periodText, filterText) {
       const tableRows = rows.length
         ? rows.map(r => `
           <tr>
             <td>${escapeHtml(r.timeLocal || '')}</td>
-            <td>${escapeHtml(r.depArr || '')}</td>
+            <td><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
             <td>${escapeHtml(r.airline || '')}</td>
             <td>${escapeHtml(r.flightNumber || '')}</td>
             <td>${escapeHtml(r.aircraft || '')}</td>
@@ -778,6 +779,23 @@
     text-align:center;
     white-space:nowrap;
   }
+  .tag{
+    display:inline-block;
+    min-width:34px;
+    padding:2px 8px;
+    border-radius:999px;
+    font-size:11px;
+    font-weight:700;
+    line-height:1.2;
+  }
+  .tag.dep{
+    background:#dbeafe;
+    color:#1d4ed8;
+  }
+  .tag.arr{
+    background:#dcfce7;
+    color:#15803d;
+  }
   .empty{
     text-align:center;
     color:#6b7c93;
@@ -836,24 +854,21 @@
 </html>`;
     }
 
-    function openResultPopup() {
-      if (isMobileLike()) {
-        alert('결과 팝업 및 PDF 저장은 PC에서 사용해주세요.');
-        return;
-      }
+    function openResultPopupAuto(force = false) {
+      if (isMobileLike() && !force) return;
 
       const rows = getPopupRows();
-      if (!rows.length) {
-        alert('팝업으로 띄울 결과가 없습니다.');
-        return;
-      }
+      if (!rows.length) return;
 
       const airport = $('metaAirport').textContent || $('airport').value.trim().toUpperCase() || '-';
       const periodText = $('metaPeriod').textContent || '-';
-
       const originText = $('filterOrigin').value.trim().toUpperCase();
       const destinationText = $('filterDestination').value.trim().toUpperCase();
       const filterText = `출발:${originText || '전체'} / 도착:${destinationText || '전체'} / 구분:${currentFilter}`;
+
+      const currentSignature = getPopupSignature(rows, airport, periodText, filterText);
+      if (!force && currentSignature === lastPopupSignature) return;
+      lastPopupSignature = currentSignature;
 
       const popup = window.open('', 'airportSchedulePopup', 'width=1280,height=860,scrollbars=yes,resizable=yes');
       if (!popup) {
@@ -908,6 +923,10 @@
         renderRows();
         setStatus(getFilteredRows().length === 0 ? '정상 (0건)' : '정상', 'ok');
 
+        if (!isMobileLike()) {
+          openResultPopupAuto(true);
+        }
+
       } catch (err) {
         allRows = [];
         renderRows();
@@ -916,12 +935,29 @@
     }
 
     $('btnSearch').addEventListener('click', searchSchedule);
-    $('btnAll').addEventListener('click', () => { currentFilter = 'ALL'; renderRows(); });
-    $('btnDep').addEventListener('click', () => { currentFilter = 'DEP'; renderRows(); });
-    $('btnArr').addEventListener('click', () => { currentFilter = 'ARR'; renderRows(); });
-    $('btnApplyFilter').addEventListener('click', applyAirportFilter);
-    $('btnClearFilter').addEventListener('click', clearAirportFilter);
-    $('btnPopup').addEventListener('click', openResultPopup);
+    $('btnAll').addEventListener('click', () => {
+      currentFilter = 'ALL';
+      renderRows();
+      openResultPopupAuto();
+    });
+    $('btnDep').addEventListener('click', () => {
+      currentFilter = 'DEP';
+      renderRows();
+      openResultPopupAuto();
+    });
+    $('btnArr').addEventListener('click', () => {
+      currentFilter = 'ARR';
+      renderRows();
+      openResultPopupAuto();
+    });
+    $('btnApplyFilter').addEventListener('click', () => {
+      applyAirportFilter();
+      openResultPopupAuto();
+    });
+    $('btnClearFilter').addEventListener('click', () => {
+      clearAirportFilter();
+      openResultPopupAuto();
+    });
 
     $('airport').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
@@ -936,11 +972,17 @@
     });
 
     $('filterOrigin').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') applyAirportFilter();
+      if (e.key === 'Enter') {
+        applyAirportFilter();
+        openResultPopupAuto();
+      }
     });
 
     $('filterDestination').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') applyAirportFilter();
+      if (e.key === 'Enter') {
+        applyAirportFilter();
+        openResultPopupAuto();
+      }
     });
 
     $('startDate').addEventListener('change', syncEndWithStartDate);
