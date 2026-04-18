@@ -206,12 +206,12 @@
 
         <div class="field">
           <label>START (LOCAL)</label>
-          <input id="startLocal" type="datetime-local" value="2026-03-05T10:00">
+          <input id="startLocal" type="datetime-local">
         </div>
 
         <div class="field">
           <label>END (LOCAL)</label>
-          <input id="endLocal" type="datetime-local" value="2026-03-05T20:00">
+          <input id="endLocal" type="datetime-local">
         </div>
 
         <div class="actions">
@@ -219,7 +219,6 @@
           <button class="btn" id="btnAll">전체</button>
           <button class="btn" id="btnDep">DEP</button>
           <button class="btn" id="btnArr">ARR</button>
-          <button class="btn" id="btnReset">해제</button>
         </div>
       </div>
 
@@ -255,7 +254,6 @@
   </div>
 
   <script>
-    // ===== 여기를 본인 Apps Script 웹앱 URL로 교체 =====
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFbAdnUVyctPPIDkPtgg6l4Jwfv0NxUAeEleSeRImlbZy-3-xJ4hqY8n5I4Cqs4vf9/exec';
 
     let allRows = [];
@@ -314,16 +312,6 @@
       `).join('');
     }
 
-    function resetView() {
-      allRows = [];
-      currentFilter = 'ALL';
-      $('metaAirport').textContent = '-';
-      $('metaPeriod').textContent = '-';
-      $('metaCount').textContent = '0';
-      setStatus('대기');
-      renderRows();
-    }
-
     function jsonp(url) {
       return new Promise((resolve, reject) => {
         const callbackName = 'jsonp_cb_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
@@ -355,6 +343,29 @@
 
         document.body.appendChild(script);
       });
+    }
+
+    function formatYmd(dateObj) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const d = String(dateObj.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function setDefaultDateTimes() {
+      const now = new Date();
+      const today = formatYmd(now);
+
+      $('startLocal').value = `${today}T08:00`;
+      $('endLocal').value = `${today}T23:00`;
+    }
+
+    function syncEndWithStartDate() {
+      const start = $('startLocal').value.trim();
+      if (!start) return;
+
+      const datePart = start.split('T')[0];
+      $('endLocal').value = `${datePart}T23:00`;
     }
 
     async function searchSchedule() {
@@ -400,7 +411,12 @@
         allRows = Array.isArray(data.rows) ? data.rows : [];
         currentFilter = 'ALL';
         renderRows();
-        setStatus('정상', 'ok');
+
+        if (allRows.length === 0) {
+          setStatus('정상 (0건)', 'ok');
+        } else {
+          setStatus('정상', 'ok');
+        }
 
       } catch (err) {
         allRows = [];
@@ -426,12 +442,13 @@
       renderRows();
     });
 
-    $('btnReset').addEventListener('click', resetView);
-
     $('airport').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
     });
 
+    $('startLocal').addEventListener('change', syncEndWithStartDate);
+
+    setDefaultDateTimes();
     renderRows();
   </script>
 </body>
