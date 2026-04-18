@@ -145,7 +145,7 @@
     table{
       width:100%;
       border-collapse:collapse;
-      min-width:720px;
+      min-width:620px;
     }
 
     thead th{
@@ -203,7 +203,6 @@
     }
 
     .col-time{min-width:78px;}
-    .col-other-time{min-width:78px;}
     .col-dir{min-width:42px;}
     .col-airline{min-width:58px;}
     .col-flight{min-width:46px;}
@@ -247,7 +246,7 @@
       }
 
       table{
-        min-width:680px;
+        min-width:560px;
       }
     }
   </style>
@@ -314,20 +313,19 @@
     <div class="table-card">
       <div class="table-wrap">
         <table>
-        <thead>
-  <tr>
-    <th class="col-time">DEP TIME(Local)</th>
-    <th class="col-other-time">ARR TIME(Local)</th>
-    <th class="col-dir">DEP/ARR</th>
-    <th class="col-airline">항공사</th>
-    <th class="col-flight">편명</th>
-    <th class="col-acft">기재</th>
-    <th class="col-org">출발공항</th>
-    <th class="col-dst">도착공항</th>
-  </tr>
-</thead>
+          <thead>
+            <tr>
+              <th class="col-time">TIME(Local)</th>
+              <th class="col-dir">DEP/ARR</th>
+              <th class="col-airline">항공사</th>
+              <th class="col-flight">편명</th>
+              <th class="col-acft">기재</th>
+              <th class="col-org">출발공항</th>
+              <th class="col-dst">도착공항</th>
+            </tr>
+          </thead>
           <tbody id="tbody">
-            <tr><td colspan="8" class="empty">조회 결과가 없습니다.</td></tr>
+            <tr><td colspan="7" class="empty">조회 결과가 없습니다.</td></tr>
           </tbody>
         </table>
       </div>
@@ -336,7 +334,7 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_DCwbP6kx7NSOkryY074CO8ipi5wz_EO26SsWKPkDUiWHlesEA_XA_YMYyA5Eo3l7/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ9zSHNECOvxMf-n6z2fx8TaC2mytXFLpzVaa_UmvXHN_54Rod21ZRj3dscoKVTgDf/exec';
 
     let allRows = [];
     let currentFilter = 'ALL';
@@ -400,22 +398,21 @@
       $('metaCount').textContent = rows.length;
 
       if (!rows.length) {
-        tbody.innerHTML = `<tr><td colspan="8" class="empty">조회 결과가 없습니다.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="empty">조회 결과가 없습니다.</td></tr>`;
         return;
       }
 
-tbody.innerHTML = rows.map(r => `
-  <tr>
-    <td class="col-time">${escapeHtml(r.depArr === 'DEP' ? (r.timeLocal || '') : (r.otherTimeLocal || ''))}</td>
-    <td class="col-other-time">${escapeHtml(r.depArr === 'DEP' ? (r.otherTimeLocal || '') : (r.timeLocal || ''))}</td>
-    <td class="col-dir"><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
-    <td class="col-airline">${escapeHtml(r.airline || '')}</td>
-    <td class="col-flight">${escapeHtml(r.flightNumber || '')}</td>
-    <td class="col-acft">${escapeHtml(r.aircraft || '')}</td>
-    <td class="col-org">${escapeHtml(r.origin || '')}</td>
-    <td class="col-dst">${escapeHtml(r.destination || '')}</td>
-  </tr>
-`).join('');
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td class="col-time">${escapeHtml(r.timeLocal || '')}</td>
+          <td class="col-dir"><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
+          <td class="col-airline">${escapeHtml(r.airline || '')}</td>
+          <td class="col-flight">${escapeHtml(r.flightNumber || '')}</td>
+          <td class="col-acft">${escapeHtml(r.aircraft || '')}</td>
+          <td class="col-org">${escapeHtml(r.origin || '')}</td>
+          <td class="col-dst">${escapeHtml(r.destination || '')}</td>
+        </tr>
+      `).join('');
     }
 
     function jsonp(url) {
