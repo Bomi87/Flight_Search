@@ -405,32 +405,33 @@
         grid-area:actions;
       }
 
-      .filter-grid{
-        grid-template-columns:auto auto;
-        grid-template-areas:
-          "origin destination"
-          "filterActions filterActions";
-        gap:8px 2px;
-        align-items:end;
-        justify-content:start;
-      }
+   .filter-grid{
+  grid-template-columns:max-content max-content;
+  grid-template-areas:
+    "origin destination"
+    "filterActions filterActions";
+  gap:8px 2px;
+  align-items:end;
+  justify-content:start;
+}
 
-      .filter-grid .field.origin-field{
-        grid-area:origin;
-      }
+.filter-grid .field.origin-field{
+  grid-area:origin;
+  width:auto;
+}
 
-      .filter-grid .field.destination-field{
-        grid-area:destination;
-      }
+.filter-grid .field.destination-field{
+  grid-area:destination;
+  width:auto;
+}
 
-      .filter-grid .actions{
-        grid-area:filterActions;
-      }
+.filter-grid .actions{
+  grid-area:filterActions;
+}
 
-      .field{
-        width:100%;
-      }
-
+.field{
+  width:100%;
+}
       .field input,
       .field select{
         font-size:13px;
