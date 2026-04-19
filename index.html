@@ -193,6 +193,16 @@
     .pc-only-inline{
       display:inline-flex;
     }
+.filter-status{
+  min-width:140px;
+  padding:0 8px;
+  font-size:12px;
+  font-weight:700;
+  color:#4a6fa5;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+}
 
     .meta{
       display:flex;
@@ -517,10 +527,11 @@
           <input id="filterDestination" class="filter-input" type="text" maxlength="4" placeholder="RJTT">
         </div>
 
-        <div class="actions">
-          <button class="btn" id="btnApplyFilter">Filter</button>
-          <button class="btn" id="btnClearFilter">Clear</button>
-        </div>
+     <div class="actions">
+  <button class="btn" id="btnApplyFilter">Filter</button>
+  <button class="btn" id="btnClearFilter">Clear</button>
+  <div id="filterStatus" class="filter-status"></div>
+</div>
       </div>
 
       <div class="meta">
@@ -634,7 +645,22 @@
   </tr>
 `).join('');
     }
+function updateFilterStatus() {
+  const origin = $('filterOrigin').value.trim().toUpperCase();
+  const destination = $('filterDestination').value.trim().toUpperCase();
 
+  let text = '';
+
+  if (origin && destination) {
+    text = `출발: ${origin} / 도착: ${destination} Filter 적용 중`;
+  } else if (origin) {
+    text = `출발: ${origin} Filter 적용 중`;
+  } else if (destination) {
+    text = `도착: ${destination} Filter 적용 중`;
+  }
+
+  $('filterStatus').textContent = text;
+}
     function jsonp(url) {
       return new Promise((resolve, reject) => {
         const callbackName = 'jsonp_cb_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
@@ -696,19 +722,21 @@
       return `${$('endDate').value}T${$('endTime').value}`;
     }
 
-    function applyAirportFilter() {
-      airportFilters.origin = $('filterOrigin').value.trim().toUpperCase();
-      airportFilters.destination = $('filterDestination').value.trim().toUpperCase();
-      renderRows();
-    }
+ function applyAirportFilter() {
+  airportFilters.origin = $('filterOrigin').value.trim().toUpperCase();
+  airportFilters.destination = $('filterDestination').value.trim().toUpperCase();
+  renderRows();
+  updateFilterStatus();
+}
 
-    function clearAirportFilter() {
-      $('filterOrigin').value = '';
-      $('filterDestination').value = '';
-      airportFilters.origin = '';
-      airportFilters.destination = '';
-      renderRows();
-    }
+function clearAirportFilter() {
+  $('filterOrigin').value = '';
+  $('filterDestination').value = '';
+  airportFilters.origin = '';
+  airportFilters.destination = '';
+  renderRows();
+  updateFilterStatus();
+}
 
     function isMobileLike() {
       return window.innerWidth <= 560 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -910,9 +938,14 @@
     }
 
     async function searchSchedule() {
-      const airport = $('airport').value.trim().toUpperCase();
-      const start = getStartValue();
-      const end = getEndValue();
+   const airport = $('airport').value.trim().toUpperCase();
+const start = getStartValue();
+const end = getEndValue();
+
+$('filterOrigin').value = '';
+$('filterDestination').value = '';
+airportFilters.origin = '';
+airportFilters.destination = '';
 
       if (!airport) {
         alert('공항 ICAO 코드를 입력해주세요.');
@@ -997,10 +1030,11 @@
     $('startDate').addEventListener('change', syncEndWithStartDate);
     $('startTime').addEventListener('change', syncEndWithStartDate);
 
-    populateTimeSelect($('startTime'), '06:00');
-    populateTimeSelect($('endTime'), '23:59');
-    setDefaultDateTimes();
-    renderRows();
+ populateTimeSelect($('startTime'), '06:00');
+populateTimeSelect($('endTime'), '23:59');
+setDefaultDateTimes();
+renderRows();
+updateFilterStatus();
   </script>
 </body>
 </html>
