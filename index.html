@@ -405,7 +405,7 @@
         grid-area:actions;
       }
 
-   .filter-grid{
+.filter-grid{
   grid-template-columns:max-content max-content;
   grid-template-areas:
     "origin destination"
@@ -413,25 +413,32 @@
   gap:8px 2px;
   align-items:end;
   justify-content:start;
+  justify-items:start;
+}
+
+.filter-grid .field{
+  width:auto !important;
 }
 
 .filter-grid .field.origin-field{
   grid-area:origin;
-  width:auto;
+  width:auto !important;
+  justify-self:start;
 }
 
 .filter-grid .field.destination-field{
   grid-area:destination;
-  width:auto;
+  width:auto !important;
+  justify-self:start;
 }
 
 .filter-grid .actions{
   grid-area:filterActions;
+  width:auto !important;
+  justify-self:start;
 }
 
-.field{
-  width:100%;
-}
+
       .field input,
       .field select{
         font-size:13px;
