@@ -406,52 +406,43 @@
       }
 
 .filter-grid{
-  grid-template-columns:max-content max-content;
-  grid-template-areas:
-    "origin destination"
-    "filterActions filterActions";
-  gap:8px 2px;
-  align-items:end;
-  justify-content:start;
-  justify-items:start;
+  display:flex;
+  flex-wrap:wrap;
+  column-gap:2px;
+  row-gap:8px;
+  align-items:flex-end;
+  justify-content:flex-start;
 }
 
 .filter-grid .field{
   width:auto !important;
+  flex:0 0 auto;
 }
 
-.filter-grid .field.origin-field{
-  grid-area:origin;
-  width:auto !important;
-  justify-self:start;
-}
-
+.filter-grid .field.origin-field,
 .filter-grid .field.destination-field{
-  grid-area:destination;
   width:auto !important;
-  justify-self:start;
+  flex:0 0 auto;
 }
 
 .filter-grid .actions{
-  grid-area:filterActions;
-  width:auto !important;
-  justify-self:start;
+  width:100% !important;
+  flex:0 0 100%;
+  justify-content:flex-start;
 }
 
+.field input,
+.field select{
+  font-size:13px;
+}
 
-      .field input,
-      .field select{
-        font-size:13px;
-      }
+.airport{
+  width:var(--w-airport) !important;
+}
 
-      .airport{
-        width:var(--w-airport) !important;
-      }
-
-      .filter-input{
-        width:var(--w-filter) !important;
-      }
-
+.filter-input{
+  width:var(--w-filter) !important;
+}
       .dt-row{
         display:grid;
         grid-template-columns:minmax(0, 1fr) var(--w-time);
