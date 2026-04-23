@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>Airport Schedule Search</title>
   <style>
     :root{
@@ -28,6 +28,10 @@
     }
 
     *{box-sizing:border-box}
+
+    html{
+      -webkit-text-size-adjust:100%;
+    }
 
     body{
       margin:0;
@@ -140,13 +144,13 @@
       padding:0 6px !important;
     }
 
- .actions{
-  display:flex;
-  gap:6px;
-  flex-wrap:nowrap;
-  align-items:center;
-  width:100%;
-}
+    .actions{
+      display:flex;
+      gap:6px;
+      flex-wrap:nowrap;
+      align-items:center;
+      width:100%;
+    }
 
     .btn{
       height:30px;
@@ -168,41 +172,41 @@
     .btn:hover{background:var(--btn-dark)}
     .btn-primary{background:var(--blue);}
     .btn-primary:hover{background:var(--blue-dark);}
-.btn-popup{
-  background:#2563eb;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
-.btn-popup:hover{
-  background:#1d4ed8;
-}
 
-#btnPopup{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  line-height:1;
-  margin-left:auto;
-  margin-right:auto;
-}
+    .btn-popup{
+      background:#2563eb;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
 
-.pc-only-inline{
-  display:inline-flex;
-}
+    .btn-popup:hover{
+      background:#1d4ed8;
+    }
+
+    #btnPopup{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      line-height:1;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
     .pc-only-inline{
       display:inline-flex;
     }
-.filter-status{
-  min-width:140px;
-  padding:0 8px;
-  font-size:12px;
-  font-weight:700;
-  color:#4a6fa5;
-  white-space:nowrap;
-  display:flex;
-  align-items:center;
-}
+
+    .filter-status{
+      min-width:140px;
+      padding:0 8px;
+      font-size:12px;
+      font-weight:700;
+      color:#4a6fa5;
+      white-space:nowrap;
+      display:flex;
+      align-items:center;
+    }
 
     .meta{
       display:flex;
@@ -367,120 +371,135 @@
       .col-dst{min-width:44px;}
     }
 
-   @media (max-width: 560px){
-  :root{
-    --w-airport:84px;
-    --w-filter:84px;
-    --w-time:80px;
-  }
+    @media (hover:none) and (pointer:coarse){
+      input,
+      select,
+      textarea{
+        font-size:16px !important;
+      }
 
-  .toolbar{
-    padding:8px;
-  }
+      .airport,
+      .filter-input,
+      .date-fit,
+      .time-fit{
+        font-size:16px !important;
+      }
+    }
 
-  .toolbar-grid{
-    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas:
-      "airport airport"
-      "start end"
-      "actions actions";
-    gap:8px 5px;
-    align-items:end;
-    justify-content:start;
-  }
+    @media (max-width: 560px){
+      :root{
+        --w-airport:84px;
+        --w-filter:84px;
+        --w-time:80px;
+      }
 
-  .toolbar-grid .field.airport-field{ grid-area:airport; }
-  .toolbar-grid .field.start-field{ grid-area:start; }
-  .toolbar-grid .field.end-field{ grid-area:end; }
-  .toolbar-grid .actions{ grid-area:actions; }
+      .toolbar{
+        padding:8px;
+      }
 
-  .filter-grid{
-    display:flex;
-    flex-wrap:wrap;
-    column-gap:4px;
-    row-gap:8px;
-    align-items:flex-end;
-    justify-content:flex-start;
-  }
+      .toolbar-grid{
+        grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas:
+          "airport airport"
+          "start end"
+          "actions actions";
+        gap:8px 5px;
+        align-items:end;
+        justify-content:start;
+      }
 
-  .filter-grid .field{
-    width:auto !important;
-    flex:0 0 auto;
-  }
+      .toolbar-grid .field.airport-field{ grid-area:airport; }
+      .toolbar-grid .field.start-field{ grid-area:start; }
+      .toolbar-grid .field.end-field{ grid-area:end; }
+      .toolbar-grid .actions{ grid-area:actions; }
 
-  .filter-grid .field.origin-field,
-  .filter-grid .field.destination-field{
-    width:auto !important;
-    flex:0 0 auto;
-  }
+      .filter-grid{
+        display:flex;
+        flex-wrap:wrap;
+        column-gap:4px;
+        row-gap:8px;
+        align-items:flex-end;
+        justify-content:flex-start;
+      }
 
-  .filter-grid .actions{
-    width:100% !important;
-    flex:0 0 100%;
-    justify-content:flex-start;
-  }
+      .filter-grid .field{
+        width:auto !important;
+        flex:0 0 auto;
+      }
 
-  input,
-  select,
-  textarea{
-    font-size:16px !important;
-  }
+      .filter-grid .field.origin-field,
+      .filter-grid .field.destination-field{
+        width:auto !important;
+        flex:0 0 auto;
+      }
 
-  .field input,
-  .field select{
-    font-size:16px !important;
-  }
+      .filter-grid .actions{
+        width:100% !important;
+        flex:0 0 100%;
+        justify-content:flex-start;
+      }
 
-  .airport,
-  .filter-input,
-  .date-fit,
-  .time-fit{
-    font-size:16px !important;
-  }
+      input,
+      select,
+      textarea{
+        font-size:16px !important;
+      }
 
-  .airport{
-    width:var(--w-airport) !important;
-  }
+      .field input,
+      .field select{
+        font-size:16px !important;
+      }
 
-  .filter-input{
-    width:var(--w-filter) !important;
-  }
+      .airport,
+      .filter-input,
+      .date-fit,
+      .time-fit{
+        font-size:16px !important;
+      }
 
-  .dt-row{
-    display:grid;
-    grid-template-columns:minmax(0, 1fr) var(--w-time);
-    gap:4px;
-    width:100%;
-  }
+      .airport{
+        width:var(--w-airport) !important;
+      }
 
-  .date-fit{
-    width:100%;
-    min-width:0;
-    max-width:none;
-  }
+      .filter-input{
+        width:var(--w-filter) !important;
+      }
 
-  .time-fit{
-    width:var(--w-time);
-    min-width:var(--w-time);
-    max-width:var(--w-time);
-  }
+      .dt-row{
+        display:grid;
+        grid-template-columns:minmax(0, 1fr) var(--w-time);
+        gap:4px;
+        width:100%;
+      }
 
-  .actions{
-    width:100%;
-  }
+      .date-fit{
+        width:100%;
+        min-width:0;
+        max-width:none;
+      }
 
-  .pc-only-inline{
-    display:none !important;
-  }
+      .time-fit{
+        width:var(--w-time);
+        min-width:var(--w-time);
+        max-width:var(--w-time);
+      }
 
-  .col-time{min-width:70px;}
-  .col-dir{min-width:34px;}
-  .col-airline{min-width:50px;}
-  .col-flight{min-width:44px;}
-  .col-acft{min-width:58px;}
-  .col-org{min-width:40px;}
-  .col-dst{min-width:40px;}
-}
+      .actions{
+        width:100%;
+      }
+
+      .pc-only-inline{
+        display:none !important;
+      }
+
+      .col-time{min-width:70px;}
+      .col-dir{min-width:34px;}
+      .col-airline{min-width:50px;}
+      .col-flight{min-width:44px;}
+      .col-acft{min-width:58px;}
+      .col-org{min-width:40px;}
+      .col-dst{min-width:40px;}
+    }
   </style>
 </head>
 <body>
@@ -529,12 +548,11 @@
           <input id="filterDestination" class="filter-input" type="text" maxlength="4" placeholder="">
         </div>
 
- <div class="actions">
-
-  <button class="btn" id="btnClearFilter">Clear</button>
-  <div id="filterStatus" class="filter-status"></div>
- <button class="btn" id="btnSwapFilter" title="공항/필터 전환">⇄</button>
-</div>
+        <div class="actions">
+          <button class="btn" id="btnClearFilter">Clear</button>
+          <div id="filterStatus" class="filter-status"></div>
+          <button class="btn" id="btnSwapFilter" title="공항/필터 전환">⇄</button>
+        </div>
       </div>
 
       <div class="meta">
@@ -548,17 +566,17 @@
     <div class="table-card">
       <div class="table-wrap">
         <table>
-         <thead>
-  <tr>
-    <th class="col-time">TIME(Local)</th>
-    <th class="col-dir">DEP/ARR</th>
-    <th class="col-org">출발공항</th>
-    <th class="col-dst">도착공항</th>
-    <th class="col-airline">항공사</th>
-    <th class="col-flight">편명</th>
-    <th class="col-acft">기재</th>
-  </tr>
-</thead>
+          <thead>
+            <tr>
+              <th class="col-time">TIME(Local)</th>
+              <th class="col-dir">DEP/ARR</th>
+              <th class="col-org">출발공항</th>
+              <th class="col-dst">도착공항</th>
+              <th class="col-airline">항공사</th>
+              <th class="col-flight">편명</th>
+              <th class="col-acft">기재</th>
+            </tr>
+          </thead>
           <tbody id="tbody">
             <tr><td colspan="7" class="empty">조회 결과가 없습니다.</td></tr>
           </tbody>
@@ -581,12 +599,12 @@
     const $ = (id) => document.getElementById(id);
     let filterApplyTimer = null;
 
-function scheduleAirportFilterApply() {
-  clearTimeout(filterApplyTimer);
-  filterApplyTimer = setTimeout(() => {
-    applyAirportFilter();
-  }, 200);
-}
+    function scheduleAirportFilterApply() {
+      clearTimeout(filterApplyTimer);
+      filterApplyTimer = setTimeout(() => {
+        applyAirportFilter();
+      }, 200);
+    }
 
     function escapeHtml(text) {
       return String(text ?? '')
@@ -644,34 +662,36 @@ function scheduleAirportFilterApply() {
         return;
       }
 
- tbody.innerHTML = rows.map(r => `
-  <tr>
-    <td class="col-time">${escapeHtml(r.timeLocal || '')}</td>
-    <td class="col-dir"><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
-    <td class="col-org">${escapeHtml(r.origin || '')}</td>
-    <td class="col-dst">${escapeHtml(r.destination || '')}</td>
-    <td class="col-airline">${escapeHtml(r.airline || '')}</td>
-    <td class="col-flight">${escapeHtml(r.flightNumber || '')}</td>
-    <td class="col-acft">${escapeHtml(r.aircraft || '')}</td>
-  </tr>
-`).join('');
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td class="col-time">${escapeHtml(r.timeLocal || '')}</td>
+          <td class="col-dir"><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
+          <td class="col-org">${escapeHtml(r.origin || '')}</td>
+          <td class="col-dst">${escapeHtml(r.destination || '')}</td>
+          <td class="col-airline">${escapeHtml(r.airline || '')}</td>
+          <td class="col-flight">${escapeHtml(r.flightNumber || '')}</td>
+          <td class="col-acft">${escapeHtml(r.aircraft || '')}</td>
+        </tr>
+      `).join('');
     }
-function updateFilterStatus() {
-  const origin = $('filterOrigin').value.trim().toUpperCase();
-  const destination = $('filterDestination').value.trim().toUpperCase();
 
-  let text = '';
+    function updateFilterStatus() {
+      const origin = $('filterOrigin').value.trim().toUpperCase();
+      const destination = $('filterDestination').value.trim().toUpperCase();
 
-  if (origin && destination) {
-    text = `출발: ${origin} / 도착: ${destination} Filter 적용 중`;
-  } else if (origin) {
-    text = `출발: ${origin} Filter 적용 중`;
-  } else if (destination) {
-    text = `도착: ${destination} Filter 적용 중`;
-  }
+      let text = '';
 
-  $('filterStatus').textContent = text;
-}
+      if (origin && destination) {
+        text = `출발: ${origin} / 도착: ${destination} Filter 적용 중`;
+      } else if (origin) {
+        text = `출발: ${origin} Filter 적용 중`;
+      } else if (destination) {
+        text = `도착: ${destination} Filter 적용 중`;
+      }
+
+      $('filterStatus').textContent = text;
+    }
+
     function jsonp(url) {
       return new Promise((resolve, reject) => {
         const callbackName = 'jsonp_cb_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
@@ -733,59 +753,59 @@ function updateFilterStatus() {
       return `${$('endDate').value}T${$('endTime').value}`;
     }
 
- function applyAirportFilter() {
-  airportFilters.origin = $('filterOrigin').value.trim().toUpperCase();
-  airportFilters.destination = $('filterDestination').value.trim().toUpperCase();
-  renderRows();
-  updateFilterStatus();
-}
+    function applyAirportFilter() {
+      airportFilters.origin = $('filterOrigin').value.trim().toUpperCase();
+      airportFilters.destination = $('filterDestination').value.trim().toUpperCase();
+      renderRows();
+      updateFilterStatus();
+    }
 
-function clearAirportFilter() {
-  $('filterOrigin').value = '';
-  $('filterDestination').value = '';
-  airportFilters.origin = '';
-  airportFilters.destination = '';
-  renderRows();
-  updateFilterStatus();
-}
-async function swapAirportFilter() {
-  const currentAirport = $('airport').value.trim().toUpperCase();
-  const depFilter = $('filterOrigin').value.trim().toUpperCase();
-  const arrFilter = $('filterDestination').value.trim().toUpperCase();
+    function clearAirportFilter() {
+      $('filterOrigin').value = '';
+      $('filterDestination').value = '';
+      airportFilters.origin = '';
+      airportFilters.destination = '';
+      renderRows();
+      updateFilterStatus();
+    }
 
-  if (!currentAirport) {
-    alert('상단 공항(ICAO)을 먼저 입력해주세요.');
-    return;
-  }
+    async function swapAirportFilter() {
+      const currentAirport = $('airport').value.trim().toUpperCase();
+      const depFilter = $('filterOrigin').value.trim().toUpperCase();
+      const arrFilter = $('filterDestination').value.trim().toUpperCase();
 
-  if (!depFilter && !arrFilter) {
-    alert('현재 적용된 DEP/ARR Filter가 없습니다.');
-    return;
-  }
+      if (!currentAirport) {
+        alert('상단 공항(ICAO)을 먼저 입력해주세요.');
+        return;
+      }
 
-  if (depFilter && arrFilter) {
-    alert('DEP/ARR Filter가 동시에 입력된 경우에는 전환할 수 없습니다.');
-    return;
-  }
+      if (!depFilter && !arrFilter) {
+        alert('현재 적용된 DEP/ARR Filter가 없습니다.');
+        return;
+      }
 
-  if (arrFilter) {
-    // ARR Filter 적용 중
-    $('airport').value = arrFilter;          // filter 공항 -> 상단 공항
-    $('filterOrigin').value = currentAirport; // 기존 상단 공항 -> DEP Filter
-    $('filterDestination').value = '';        // ARR Filter 비움
-  } else if (depFilter) {
-    // DEP Filter 적용 중
-    $('airport').value = depFilter;           // filter 공항 -> 상단 공항
-    $('filterDestination').value = currentAirport; // 기존 상단 공항 -> ARR Filter
-    $('filterOrigin').value = '';             // DEP Filter 비움
-  }
+      if (depFilter && arrFilter) {
+        alert('DEP/ARR Filter가 동시에 입력된 경우에는 전환할 수 없습니다.');
+        return;
+      }
 
-  airportFilters.origin = '';
-  airportFilters.destination = '';
+      if (arrFilter) {
+        $('airport').value = arrFilter;
+        $('filterOrigin').value = currentAirport;
+        $('filterDestination').value = '';
+      } else if (depFilter) {
+        $('airport').value = depFilter;
+        $('filterDestination').value = currentAirport;
+        $('filterOrigin').value = '';
+      }
 
-  await searchSchedule();   // 새 상단 공항 기준 재조회
-  applyAirportFilter();     // 새 filter 다시 적용
-}
+      airportFilters.origin = '';
+      airportFilters.destination = '';
+
+      await searchSchedule();
+      applyAirportFilter();
+    }
+
     function isMobileLike() {
       return window.innerWidth <= 560 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     }
@@ -798,13 +818,13 @@ async function swapAirportFilter() {
       const tableRows = rows.length
         ? rows.map(r => `
           <tr>
-        <td>${escapeHtml(r.timeLocal || '')}</td>
-<td><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
-<td>${escapeHtml(r.origin || '')}</td>
-<td>${escapeHtml(r.destination || '')}</td>
-<td>${escapeHtml(r.airline || '')}</td>
-<td>${escapeHtml(r.flightNumber || '')}</td>
-<td>${escapeHtml(r.aircraft || '')}</td>
+            <td>${escapeHtml(r.timeLocal || '')}</td>
+            <td><span class="tag ${r.depArr === 'DEP' ? 'dep' : 'arr'}">${escapeHtml(r.depArr || '')}</span></td>
+            <td>${escapeHtml(r.origin || '')}</td>
+            <td>${escapeHtml(r.destination || '')}</td>
+            <td>${escapeHtml(r.airline || '')}</td>
+            <td>${escapeHtml(r.flightNumber || '')}</td>
+            <td>${escapeHtml(r.aircraft || '')}</td>
           </tr>
         `).join('')
         : `<tr><td colspan="7" class="empty">조회 결과가 없습니다.</td></tr>`;
@@ -813,7 +833,7 @@ async function swapAirportFilter() {
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Airport Schedule Result</title>
 <style>
   body{
@@ -938,13 +958,13 @@ async function swapAirportFilter() {
   <table>
     <thead>
       <tr>
-     <th>TIME(Local)</th>
-<th>DEP/ARR</th>
-<th>출발공항</th>
-<th>도착공항</th>
-<th>항공사</th>
-<th>편명</th>
-<th>기재</th>
+        <th>TIME(Local)</th>
+        <th>DEP/ARR</th>
+        <th>출발공항</th>
+        <th>도착공항</th>
+        <th>항공사</th>
+        <th>편명</th>
+        <th>기재</th>
       </tr>
     </thead>
     <tbody>
@@ -986,11 +1006,9 @@ async function swapAirportFilter() {
     }
 
     async function searchSchedule() {
-   const airport = $('airport').value.trim().toUpperCase();
-const start = getStartValue();
-const end = getEndValue();
-
-
+      const airport = $('airport').value.trim().toUpperCase();
+      const start = getStartValue();
+      const end = getEndValue();
 
       if (!airport) {
         alert('공항 ICAO 코드를 입력해주세요.');
@@ -1036,47 +1054,48 @@ const end = getEndValue();
     }
 
     $('btnSearch').addEventListener('click', searchSchedule);
+
     $('btnAll').addEventListener('click', () => {
       currentFilter = 'ALL';
       renderRows();
     });
+
     $('btnDep').addEventListener('click', () => {
       currentFilter = 'DEP';
       renderRows();
     });
+
     $('btnArr').addEventListener('click', () => {
       currentFilter = 'ARR';
       renderRows();
     });
 
-$('btnClearFilter').addEventListener('click', clearAirportFilter);
-$('btnSwapFilter').addEventListener('click', swapAirportFilter);
-$('btnPopup').addEventListener('click', openResultPopup);
+    $('btnClearFilter').addEventListener('click', clearAirportFilter);
+    $('btnSwapFilter').addEventListener('click', swapAirportFilter);
+    $('btnPopup').addEventListener('click', openResultPopup);
 
     $('airport').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
     });
 
-$('filterOrigin').addEventListener('input', (e) => {
-  e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
-  scheduleAirportFilterApply();
-});
+    $('filterOrigin').addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+      scheduleAirportFilterApply();
+    });
 
-$('filterDestination').addEventListener('input', (e) => {
-  e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
-  scheduleAirportFilterApply();
-});
-
-
+    $('filterDestination').addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+      scheduleAirportFilterApply();
+    });
 
     $('startDate').addEventListener('change', syncEndWithStartDate);
     $('startTime').addEventListener('change', syncEndWithStartDate);
 
- populateTimeSelect($('startTime'), '06:00');
-populateTimeSelect($('endTime'), '23:59');
-setDefaultDateTimes();
-renderRows();
-updateFilterStatus();
+    populateTimeSelect($('startTime'), '06:00');
+    populateTimeSelect($('endTime'), '23:59');
+    setDefaultDateTimes();
+    renderRows();
+    updateFilterStatus();
   </script>
 </body>
 </html>
