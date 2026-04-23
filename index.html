@@ -527,7 +527,7 @@
         </div>
 
  <div class="actions">
-  <button class="btn" id="btnApplyFilter">Filter</button>
+
   <button class="btn" id="btnClearFilter">Clear</button>
   <div id="filterStatus" class="filter-status"></div>
  <button class="btn" id="btnSwapFilter" title="공항/필터 전환">⇄</button>
@@ -576,6 +576,14 @@
     };
 
     const $ = (id) => document.getElementById(id);
+    let filterApplyTimer = null;
+
+function scheduleAirportFilterApply() {
+  clearTimeout(filterApplyTimer);
+  filterApplyTimer = setTimeout(() => {
+    applyAirportFilter();
+  }, 200);
+}
 
     function escapeHtml(text) {
       return String(text ?? '')
@@ -1037,7 +1045,7 @@ const end = getEndValue();
       currentFilter = 'ARR';
       renderRows();
     });
- $('btnApplyFilter').addEventListener('click', applyAirportFilter);
+
 $('btnClearFilter').addEventListener('click', clearAirportFilter);
 $('btnSwapFilter').addEventListener('click', swapAirportFilter);
 $('btnPopup').addEventListener('click', openResultPopup);
@@ -1046,21 +1054,17 @@ $('btnPopup').addEventListener('click', openResultPopup);
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
     });
 
-    $('filterOrigin').addEventListener('input', (e) => {
-      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
-    });
+$('filterOrigin').addEventListener('input', (e) => {
+  e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+  scheduleAirportFilterApply();
+});
 
-    $('filterDestination').addEventListener('input', (e) => {
-      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
-    });
+$('filterDestination').addEventListener('input', (e) => {
+  e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+  scheduleAirportFilterApply();
+});
 
-    $('filterOrigin').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') applyAirportFilter();
-    });
 
-    $('filterDestination').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') applyAirportFilter();
-    });
 
     $('startDate').addEventListener('change', syncEndWithStartDate);
     $('startTime').addEventListener('change', syncEndWithStartDate);
