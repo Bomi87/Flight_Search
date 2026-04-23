@@ -526,10 +526,11 @@
           <input id="filterDestination" class="filter-input" type="text" maxlength="4" placeholder="">
         </div>
 
-     <div class="actions">
+ <div class="actions">
   <button class="btn" id="btnApplyFilter">Filter</button>
   <button class="btn" id="btnClearFilter">Clear</button>
   <div id="filterStatus" class="filter-status"></div>
+ <button class="btn" id="btnSwapFilter" title="공항/필터 전환">⇄</button>
 </div>
       </div>
 
@@ -736,7 +737,44 @@ function clearAirportFilter() {
   renderRows();
   updateFilterStatus();
 }
+async function swapAirportFilter() {
+  const currentAirport = $('airport').value.trim().toUpperCase();
+  const origin = $('filterOrigin').value.trim().toUpperCase();
+  const destination = $('filterDestination').value.trim().toUpperCase();
 
+  if (!currentAirport) {
+    alert('상단 공항(ICAO)을 먼저 입력해주세요.');
+    return;
+  }
+
+  if (origin && destination) {
+    alert('DEP / ARR Filter가 동시에 적용된 경우에는 전환할 수 없습니다. 하나만 적용해주세요.');
+    return;
+  }
+
+  if (!origin && !destination) {
+    alert('적용된 DEP 또는 ARR Filter가 없습니다.');
+    return;
+  }
+
+  if (destination) {
+    // ARR Filter 적용 중인 경우
+    $('airport').value = destination;
+    $('filterOrigin').value = currentAirport;
+    $('filterDestination').value = '';
+  } else if (origin) {
+    // DEP Filter 적용 중인 경우
+    $('airport').value = origin;
+    $('filterDestination').value = currentAirport;
+    $('filterOrigin').value = '';
+  }
+
+  airportFilters.origin = '';
+  airportFilters.destination = '';
+
+  await searchSchedule();
+  applyAirportFilter();
+}
     function isMobileLike() {
       return window.innerWidth <= 560 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     }
@@ -999,9 +1037,10 @@ const end = getEndValue();
       currentFilter = 'ARR';
       renderRows();
     });
-    $('btnApplyFilter').addEventListener('click', applyAirportFilter);
-    $('btnClearFilter').addEventListener('click', clearAirportFilter);
-    $('btnPopup').addEventListener('click', openResultPopup);
+ $('btnApplyFilter').addEventListener('click', applyAirportFilter);
+$('btnClearFilter').addEventListener('click', clearAirportFilter);
+$('btnSwapFilter').addEventListener('click', swapAirportFilter);
+$('btnPopup').addEventListener('click', openResultPopup);
 
     $('airport').addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
