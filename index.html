@@ -739,41 +739,41 @@ function clearAirportFilter() {
 }
 async function swapAirportFilter() {
   const currentAirport = $('airport').value.trim().toUpperCase();
-  const origin = $('filterOrigin').value.trim().toUpperCase();
-  const destination = $('filterDestination').value.trim().toUpperCase();
+  const depFilter = $('filterOrigin').value.trim().toUpperCase();
+  const arrFilter = $('filterDestination').value.trim().toUpperCase();
 
   if (!currentAirport) {
     alert('상단 공항(ICAO)을 먼저 입력해주세요.');
     return;
   }
 
-  if (origin && destination) {
-    alert('DEP / ARR Filter가 동시에 적용된 경우에는 전환할 수 없습니다. 하나만 적용해주세요.');
+  if (!depFilter && !arrFilter) {
+    alert('현재 적용된 DEP/ARR Filter가 없습니다.');
     return;
   }
 
-  if (!origin && !destination) {
-    alert('적용된 DEP 또는 ARR Filter가 없습니다.');
+  if (depFilter && arrFilter) {
+    alert('DEP/ARR Filter가 동시에 입력된 경우에는 전환할 수 없습니다.');
     return;
   }
 
-  if (destination) {
-    // ARR Filter 적용 중인 경우
-    $('airport').value = destination;
-    $('filterOrigin').value = currentAirport;
-    $('filterDestination').value = '';
-  } else if (origin) {
-    // DEP Filter 적용 중인 경우
-    $('airport').value = origin;
-    $('filterDestination').value = currentAirport;
-    $('filterOrigin').value = '';
+  if (arrFilter) {
+    // ARR Filter 적용 중
+    $('airport').value = arrFilter;          // filter 공항 -> 상단 공항
+    $('filterOrigin').value = currentAirport; // 기존 상단 공항 -> DEP Filter
+    $('filterDestination').value = '';        // ARR Filter 비움
+  } else if (depFilter) {
+    // DEP Filter 적용 중
+    $('airport').value = depFilter;           // filter 공항 -> 상단 공항
+    $('filterDestination').value = currentAirport; // 기존 상단 공항 -> ARR Filter
+    $('filterOrigin').value = '';             // DEP Filter 비움
   }
 
   airportFilters.origin = '';
   airportFilters.destination = '';
 
-  await searchSchedule();
-  applyAirportFilter();
+  await searchSchedule();   // 새 상단 공항 기준 재조회
+  applyAirportFilter();     // 새 filter 다시 적용
 }
     function isMobileLike() {
       return window.innerWidth <= 560 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
