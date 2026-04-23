@@ -367,117 +367,120 @@
       .col-dst{min-width:44px;}
     }
 
-    @media (max-width: 560px){
-      :root{
-        --w-airport:84px;
-        --w-filter:84px;
-        --w-time:72px;
-      }
+   @media (max-width: 560px){
+  :root{
+    --w-airport:84px;
+    --w-filter:84px;
+    --w-time:72px;
+  }
 
-      .toolbar{
-        padding:8px;
-      }
+  .toolbar{
+    padding:8px;
+  }
 
-      .toolbar-grid{
-        grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
-        grid-template-areas:
-          "airport airport"
-          "start end"
-          "actions actions";
-        gap:8px 5px;
-        align-items:end;
-        justify-content:start;
-      }
+  .toolbar-grid{
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "airport airport"
+      "start end"
+      "actions actions";
+    gap:8px 5px;
+    align-items:end;
+    justify-content:start;
+  }
 
-      .toolbar-grid .field.airport-field{
-        grid-area:airport;
-      }
+  .toolbar-grid .field.airport-field{ grid-area:airport; }
+  .toolbar-grid .field.start-field{ grid-area:start; }
+  .toolbar-grid .field.end-field{ grid-area:end; }
+  .toolbar-grid .actions{ grid-area:actions; }
 
-      .toolbar-grid .field.start-field{
-        grid-area:start;
-      }
+  .filter-grid{
+    display:flex;
+    flex-wrap:wrap;
+    column-gap:4px;
+    row-gap:8px;
+    align-items:flex-end;
+    justify-content:flex-start;
+  }
 
-      .toolbar-grid .field.end-field{
-        grid-area:end;
-      }
+  .filter-grid .field{
+    width:auto !important;
+    flex:0 0 auto;
+  }
 
-      .toolbar-grid .actions{
-        grid-area:actions;
-      }
+  .filter-grid .field.origin-field,
+  .filter-grid .field.destination-field{
+    width:auto !important;
+    flex:0 0 auto;
+  }
 
-.filter-grid{
-  display:flex;
-  flex-wrap:wrap;
-  column-gap:4px;
-  row-gap:8px;
-  align-items:flex-end;
-  justify-content:flex-start;
+  .filter-grid .actions{
+    width:100% !important;
+    flex:0 0 100%;
+    justify-content:flex-start;
+  }
+
+  input,
+  select,
+  textarea{
+    font-size:16px !important;
+  }
+
+  .field input,
+  .field select{
+    font-size:16px !important;
+  }
+
+  .airport,
+  .filter-input,
+  .date-fit,
+  .time-fit{
+    font-size:16px !important;
+  }
+
+  .airport{
+    width:var(--w-airport) !important;
+  }
+
+  .filter-input{
+    width:var(--w-filter) !important;
+  }
+
+  .dt-row{
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) var(--w-time);
+    gap:4px;
+    width:100%;
+  }
+
+  .date-fit{
+    width:100%;
+    min-width:0;
+    max-width:none;
+  }
+
+  .time-fit{
+    width:var(--w-time);
+    min-width:var(--w-time);
+    max-width:var(--w-time);
+  }
+
+  .actions{
+    width:100%;
+  }
+
+  .pc-only-inline{
+    display:none !important;
+  }
+
+  .col-time{min-width:70px;}
+  .col-dir{min-width:34px;}
+  .col-airline{min-width:50px;}
+  .col-flight{min-width:44px;}
+  .col-acft{min-width:58px;}
+  .col-org{min-width:40px;}
+  .col-dst{min-width:40px;}
 }
-
-.filter-grid .field{
-  width:auto !important;
-  flex:0 0 auto;
-}
-
-.filter-grid .field.origin-field,
-.filter-grid .field.destination-field{
-  width:auto !important;
-  flex:0 0 auto;
-}
-
-.filter-grid .actions{
-  width:100% !important;
-  flex:0 0 100%;
-  justify-content:flex-start;
-}
-
-.field input,
-.field select{
-  font-size:16px;
-}
-
-.airport{
-  width:var(--w-airport) !important;
-}
-
-.filter-input{
-  width:var(--w-filter) !important;
-}
-      .dt-row{
-        display:grid;
-        grid-template-columns:minmax(0, 1fr) var(--w-time);
-        gap:4px;
-        width:100%;
-      }
-
-      .date-fit{
-        width:100%;
-        min-width:0;
-        max-width:none;
-      }
-
-      .time-fit{
-        width:var(--w-time);
-        min-width:var(--w-time);
-        max-width:var(--w-time);
-      }
-
-      .actions{
-        width:100%;
-      }
-
-      .pc-only-inline{
-        display:none !important;
-      }
-
-      .col-time{min-width:70px;}
-      .col-dir{min-width:34px;}
-      .col-airline{min-width:50px;}
-      .col-flight{min-width:44px;}
-      .col-acft{min-width:58px;}
-      .col-org{min-width:40px;}
-      .col-dst{min-width:40px;}
-    }
   </style>
 </head>
 <body>
@@ -810,7 +813,7 @@ async function swapAirportFilter() {
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Airport Schedule Result</title>
 <style>
   body{
