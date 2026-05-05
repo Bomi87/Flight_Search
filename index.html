@@ -20,7 +20,6 @@
       --arr:#dcfce7;
       --shadow:0 8px 24px rgba(15,23,42,.08);
 
-      /* PC */
       --w-airport:83px;
       --w-filter:83px;
       --w-date:118px;
@@ -503,87 +502,104 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div id="authScreen" style="
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:#f4f7fb;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans KR',Arial,sans-serif;
+    color:#1f2937;
+    font-size:15px;
+    font-weight:700;
+  ">
+    승인 확인 중...
+  </div>
 
-    <div class="toolbar">
-      <div class="toolbar-grid">
-        <div class="field airport-field">
-          <label>공항(ICAO)</label>
-          <input id="airport" class="airport" type="text" value="" maxlength="4" placeholder="">
-        </div>
+  <div id="appRoot" style="display:none;">
+    <div class="wrap">
 
-        <div class="field start-field">
-          <label>START (LOCAL)</label>
-          <div class="dt-row">
-            <input id="startDate" class="date-fit" type="date">
-            <select id="startTime" class="time-fit"></select>
+      <div class="toolbar">
+        <div class="toolbar-grid">
+          <div class="field airport-field">
+            <label>공항(ICAO)</label>
+            <input id="airport" class="airport" type="text" value="" maxlength="4" placeholder="">
+          </div>
+
+          <div class="field start-field">
+            <label>START (LOCAL)</label>
+            <div class="dt-row">
+              <input id="startDate" class="date-fit" type="date">
+              <select id="startTime" class="time-fit"></select>
+            </div>
+          </div>
+
+          <div class="field end-field">
+            <label>END (LOCAL)</label>
+            <div class="dt-row">
+              <input id="endDate" class="date-fit" type="date">
+              <select id="endTime" class="time-fit"></select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="btnSearch">스케줄 조회</button>
+            <button class="btn" id="btnAll">전체</button>
+            <button class="btn" id="btnDep">DEP</button>
+            <button class="btn" id="btnArr">ARR</button>
+            <button class="btn btn-popup pc-only-inline" id="btnPopup">결과 팝업</button>
           </div>
         </div>
 
-        <div class="field end-field">
-          <label>END (LOCAL)</label>
-          <div class="dt-row">
-            <input id="endDate" class="date-fit" type="date">
-            <select id="endTime" class="time-fit"></select>
+        <div class="filter-grid">
+          <div class="field origin-field">
+            <label>DEP Filter</label>
+            <input id="filterOrigin" class="filter-input" type="text" maxlength="4" placeholder="">
+          </div>
+
+          <div class="field destination-field">
+            <label>ARR Filter</label>
+            <input id="filterDestination" class="filter-input" type="text" maxlength="4" placeholder="">
+          </div>
+
+          <div class="actions">
+            <button class="btn" id="btnClearFilter">Clear</button>
+            <div id="filterStatus" class="filter-status"></div>
+            <button class="btn" id="btnSwapFilter" title="공항/필터 전환">⇄</button>
           </div>
         </div>
 
-        <div class="actions">
-          <button class="btn btn-primary" id="btnSearch">스케줄 조회</button>
-          <button class="btn" id="btnAll">전체</button>
-          <button class="btn" id="btnDep">DEP</button>
-          <button class="btn" id="btnArr">ARR</button>
-          <button class="btn btn-popup pc-only-inline" id="btnPopup">결과 팝업</button>
+        <div class="meta">
+          <div>공항: <strong id="metaAirport">-</strong></div>
+          <div>기간: <strong id="metaPeriod">-</strong></div>
+          <div>건수: <strong id="metaCount">0</strong></div>
+          <div>상태: <strong id="metaStatus">대기</strong></div>
         </div>
       </div>
 
-      <div class="filter-grid">
-        <div class="field origin-field">
-          <label>DEP Filter</label>
-          <input id="filterOrigin" class="filter-input" type="text" maxlength="4" placeholder="">
-        </div>
-
-        <div class="field destination-field">
-          <label>ARR Filter</label>
-          <input id="filterDestination" class="filter-input" type="text" maxlength="4" placeholder="">
-        </div>
-
-        <div class="actions">
-          <button class="btn" id="btnClearFilter">Clear</button>
-          <div id="filterStatus" class="filter-status"></div>
-          <button class="btn" id="btnSwapFilter" title="공항/필터 전환">⇄</button>
+      <div class="table-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="col-time">TIME(Local)</th>
+                <th class="col-dir">DEP/ARR</th>
+                <th class="col-org">출발공항</th>
+                <th class="col-dst">도착공항</th>
+                <th class="col-airline">항공사</th>
+                <th class="col-flight">편명</th>
+                <th class="col-acft">기재</th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+              <tr><td colspan="7" class="empty">조회 결과가 없습니다.</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <div class="meta">
-        <div>공항: <strong id="metaAirport">-</strong></div>
-        <div>기간: <strong id="metaPeriod">-</strong></div>
-        <div>건수: <strong id="metaCount">0</strong></div>
-        <div>상태: <strong id="metaStatus">대기</strong></div>
-      </div>
     </div>
-
-    <div class="table-card">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th class="col-time">TIME(Local)</th>
-              <th class="col-dir">DEP/ARR</th>
-              <th class="col-org">출발공항</th>
-              <th class="col-dst">도착공항</th>
-              <th class="col-airline">항공사</th>
-              <th class="col-flight">편명</th>
-              <th class="col-acft">기재</th>
-            </tr>
-          </thead>
-          <tbody id="tbody">
-            <tr><td colspan="7" class="empty">조회 결과가 없습니다.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
   </div>
 
   <script>
@@ -596,8 +612,10 @@
       destination: ''
     };
 
-    const $ = (id) => document.getElementById(id);
     let filterApplyTimer = null;
+    let AIRPORT_SCHEDULE_APP_STARTED = false;
+
+    const $ = (id) => document.getElementById(id);
 
     function scheduleAirportFilterApply() {
       clearTimeout(filterApplyTimer);
@@ -976,6 +994,8 @@
     }
 
     function openResultPopup() {
+      if (!AIRPORT_SCHEDULE_APP_STARTED) return;
+
       if (isMobileLike()) {
         alert('결과 팝업 및 PDF 저장은 PC에서 사용해주세요.');
         return;
@@ -1006,6 +1026,8 @@
     }
 
     async function searchSchedule() {
+      if (!AIRPORT_SCHEDULE_APP_STARTED) return;
+
       const airport = $('airport').value.trim().toUpperCase();
       const start = getStartValue();
       const end = getEndValue();
@@ -1014,10 +1036,12 @@
         alert('공항 ICAO 코드를 입력해주세요.');
         return;
       }
+
       if (!$('startDate').value || !$('endDate').value) {
         alert('시작/종료 날짜를 입력해주세요.');
         return;
       }
+
       if (end <= start) {
         alert('종료시간은 시작시간보다 나중이어야 합니다.');
         return;
@@ -1053,49 +1077,82 @@
       }
     }
 
-    $('btnSearch').addEventListener('click', searchSchedule);
+    function bindAppEvents() {
+      $('btnSearch').addEventListener('click', searchSchedule);
 
-    $('btnAll').addEventListener('click', () => {
-      currentFilter = 'ALL';
+      $('btnAll').addEventListener('click', () => {
+        currentFilter = 'ALL';
+        renderRows();
+      });
+
+      $('btnDep').addEventListener('click', () => {
+        currentFilter = 'DEP';
+        renderRows();
+      });
+
+      $('btnArr').addEventListener('click', () => {
+        currentFilter = 'ARR';
+        renderRows();
+      });
+
+      $('btnClearFilter').addEventListener('click', clearAirportFilter);
+      $('btnSwapFilter').addEventListener('click', swapAirportFilter);
+      $('btnPopup').addEventListener('click', openResultPopup);
+
+      $('airport').addEventListener('input', (e) => {
+        e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+      });
+
+      $('filterOrigin').addEventListener('input', (e) => {
+        e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+        scheduleAirportFilterApply();
+      });
+
+      $('filterDestination').addEventListener('input', (e) => {
+        e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+        scheduleAirportFilterApply();
+      });
+
+      $('startDate').addEventListener('change', syncEndWithStartDate);
+      $('startTime').addEventListener('change', syncEndWithStartDate);
+    }
+
+    function initializeAirportScheduleApp() {
+      populateTimeSelect($('startTime'), '06:00');
+      populateTimeSelect($('endTime'), '23:59');
+      setDefaultDateTimes();
       renderRows();
-    });
+      updateFilterStatus();
+      bindAppEvents();
+    }
 
-    $('btnDep').addEventListener('click', () => {
-      currentFilter = 'DEP';
-      renderRows();
-    });
+    function showAuthorizedApp() {
+      const authScreen = document.getElementById('authScreen');
+      const appRoot = document.getElementById('appRoot');
 
-    $('btnArr').addEventListener('click', () => {
-      currentFilter = 'ARR';
-      renderRows();
-    });
+      if (authScreen) authScreen.style.display = 'none';
+      if (appRoot) appRoot.style.display = 'block';
+    }
 
-    $('btnClearFilter').addEventListener('click', clearAirportFilter);
-    $('btnSwapFilter').addEventListener('click', swapAirportFilter);
-    $('btnPopup').addEventListener('click', openResultPopup);
+    function startAirportScheduleAfterAuth() {
+      if (AIRPORT_SCHEDULE_APP_STARTED) return;
 
-    $('airport').addEventListener('input', (e) => {
-      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
-    });
+      AIRPORT_SCHEDULE_APP_STARTED = true;
+      showAuthorizedApp();
+      initializeAirportScheduleApp();
+    }
 
-    $('filterOrigin').addEventListener('input', (e) => {
-      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
-      scheduleAirportFilterApply();
-    });
+    (function waitForPortalAuth() {
+      if (window.CURRENT_PORTAL_USER) {
+        startAirportScheduleAfterAuth();
+        return;
+      }
 
-    $('filterDestination').addEventListener('input', (e) => {
-      e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
-      scheduleAirportFilterApply();
-    });
-
-    $('startDate').addEventListener('change', syncEndWithStartDate);
-    $('startTime').addEventListener('change', syncEndWithStartDate);
-
-    populateTimeSelect($('startTime'), '06:00');
-    populateTimeSelect($('endTime'), '23:59');
-    setDefaultDateTimes();
-    renderRows();
-    updateFilterStatus();
+      setTimeout(waitForPortalAuth, 200);
+    })();
   </script>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://bomi87.github.io/SK-Aviation-portal/common-auth.js"></script>
 </body>
 </html>
